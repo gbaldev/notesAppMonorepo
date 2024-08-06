@@ -1,0 +1,63 @@
+import {Dimensions, StyleSheet} from 'react-native';
+
+export default StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button: {
+    width: '90%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 25,
+    position: 'absolute',
+    bottom: 60,
+  },
+  textInput: {
+    margin: 16,
+    paddingHorizontal: 16,
+    borderWidth: 1,
+    borderColor: 'gray',
+    backgroundColor: 'RGBA(255,255,255,0.1)',
+    borderRadius: 25,
+    height: 50,
+    width: '90%',
+    color: 'white',
+  },
+  labelView: {
+    position: 'absolute',
+    height: '100%',
+    width: 150,
+    borderColor: 'black',
+    borderWidth: 2,
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+  },
+  buttonLabel: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    zIndex: 1,
+  },
+  welcomeLabel: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: Dimensions.get('screen').height / 2 - 150,
+  },
+  loginButton: {
+    padding: 6,
+    paddingHorizontal: 12,
+    borderRadius: 25,
+    height: 50,
+    zIndex: 0,
+    backgroundColor: 'white',
+    opacity: 0.3,
+    width: 150,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  backgroundImage: {flex: 1},
+  logo: {height: 150},
+});
