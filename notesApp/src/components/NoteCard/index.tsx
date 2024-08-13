@@ -23,6 +23,16 @@ const NoteCard: React.ComponentType<NoteCardProps> = ({item, onDeleteItem}) => {
       <View style={[styles.header, styles[`header${item.priority ?? ''}`]]}>
         <View style={styles.titleContainer}>
           <Icon name="fire" {...item} size={20} />
+          {!item.isSynced && (
+            <View
+              style={{
+                height: 20,
+                width: 20,
+                backgroundColor: 'red',
+                borderRadius: 50,
+              }}
+            />
+          )}
           <Text style={styles.lastModified}>
             Last modified: {lastModifiedDate}
           </Text>

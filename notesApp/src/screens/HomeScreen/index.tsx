@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {View, FlatList, ListRenderItem, RefreshControl} from 'react-native';
 import {User} from 'react-native-auth0';
 import Note from '../../models/Note';
@@ -8,6 +8,7 @@ import styles from './styles';
 import NavHeader from './components/NavHeader';
 import NewNoteModal from './components/NewNoteModal';
 import {UseMutateFunction} from '@tanstack/react-query';
+import NoConnectionDisclaimer from '../../components/NoConnectionDisclaimer';
 
 interface HomeScreenProps {
   user: User | null;
@@ -28,16 +29,13 @@ const HomeScreen: React.ComponentType<HomeScreenProps> = ({
   onLogout,
   onCreateNote,
   onDeleteNote,
-  isError,
+  // isError,
   isLoading,
   onRefresh,
   isDeleting,
   isCreating,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  useEffect(() => {
-    console.log(isError, isLoading);
-  }, [isError, isLoading, notes, onDeleteNote]);
 
   const renderItem: ListRenderItem<Note> = ({item}) => {
     return <NoteCard onDeleteItem={onDeleteNote} item={item} />;
@@ -53,6 +51,7 @@ const HomeScreen: React.ComponentType<HomeScreenProps> = ({
       />
       <NavHeader user={user} onLogout={onLogout} />
       <View style={styles.container}>
+        <NoConnectionDisclaimer />
         <Header onAddItem={() => setIsModalVisible(true)} />
         <FlatList
           refreshControl={

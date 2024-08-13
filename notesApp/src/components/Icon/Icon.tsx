@@ -6,6 +6,7 @@ import Edit from './Edit';
 import Fire from './Fire';
 import Bin from './Bin';
 import CloudUpload from './CloudUpload';
+import Alert from './Alert';
 
 export const IconMap = {
   logOut: LogOut,
@@ -14,6 +15,7 @@ export const IconMap = {
   fire: Fire,
   bin: Bin,
   cloudUpload: CloudUpload,
+  alert: Alert,
 };
 
 interface Props {
