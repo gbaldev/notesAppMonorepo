@@ -17,6 +17,12 @@ export class Note {
   @Prop({ default: Date.now })
   createdAt: Date;
 
+  @Prop({ default: Date.now })
+  editedAt: Date;
+
+  @Prop({ default: 'ACTIVE' })
+  status: 'ACTIVE' | 'DELETED';
+
   @Prop({ required: true })
   userId: string;
 }
