@@ -13,6 +13,7 @@ import {
 } from '../store/selectors';
 import NoteStatus from '../models/NoteStatus';
 import {UseMutateFunction} from '@tanstack/react-query';
+import useUpdateNoteMutation from './useUpdateNoteMutation';
 
 export const useNotesLogic = () => {
   const {user, clearSession} = useAuth0();
@@ -45,6 +46,12 @@ export const useNotesLogic = () => {
   } = useCreateNoteMutation();
 
   const {
+    mutate: updateNoteMutation,
+    isError: isUpdateError,
+    isPending: isUpdateRunning,
+  } = useUpdateNoteMutation();
+
+  const {
     mutate: deleteNoteMutation,
     isError: isDeleteError,
     isPending: isDeleteRunning,
@@ -67,7 +74,14 @@ export const useNotesLogic = () => {
   const createUnsyncedNote = useCallback(
     (note: Note, {onSuccess}: {onSuccess: () => void}) => {
       setNotes([
-        {...note, isSynced: false, noteStatus: NoteStatus.ACTIVE},
+        {
+          ...note,
+          isSynced: false,
+          status: NoteStatus.ACTIVE,
+          _id: `localId${Math.random() * 100}${Math.random() * 100}${
+            Math.random() * 100
+          }`,
+        },
         ...notes,
       ]);
       onSuccess();
@@ -85,6 +99,29 @@ export const useNotesLogic = () => {
     createNoteMutation,
     createUnsyncedNote,
     isInternetReachable,
+  ]) as unknown as UseMutateFunction<Note, unknown, Note, unknown>;
+
+  const updateUnsyncedNote = useCallback(
+    (note: Note, {onSuccess}: {onSuccess: () => void}) => {
+      const newNotes = notes.map(_note =>
+        _note._id === note._id ? {...note, isSynced: false} : _note,
+      );
+      setNotes(newNotes);
+      onSuccess();
+    },
+    [notes, setNotes],
+  );
+
+  const updateNote = useMemo(() => {
+    if (isInternetReachable) {
+      return updateNoteMutation;
+    } else {
+      return updateUnsyncedNote;
+    }
+  }, [
+    isInternetReachable,
+    updateNoteMutation,
+    updateUnsyncedNote,
   ]) as unknown as UseMutateFunction<Note, unknown, Note, unknown>;
 
   const deleteUnsyncedNote = useCallback(
@@ -115,14 +152,17 @@ export const useNotesLogic = () => {
     isLoading: isGetNotesLoading,
     isCreating: isCreateRunning,
     isDeleting: isDeleteRunning,
-    isError: isFetchingError || isCreateNoteError || isDeleteError,
+    isUpdating: isUpdateRunning,
+    isError:
+      isFetchingError || isCreateNoteError || isDeleteError || isUpdateError,
     user,
     fetchNotes,
     getNoteById,
     getNotesByPriority,
     getUnsyncedNotes,
-    createNote: createNote,
-    deleteNote: deleteNote,
+    createNote,
+    deleteNote,
+    updateNote,
     refreshNotes: onRefresh,
     logout,
   };

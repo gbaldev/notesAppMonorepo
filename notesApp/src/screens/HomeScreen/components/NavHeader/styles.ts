@@ -26,8 +26,8 @@ const useStyles = () => {
     label: {
       flexGrow: 1,
       paddingHorizontal: 20,
-      fontWeight: 'bold',
-      fontSize: 20,
+      fontWeight: '200',
+      fontSize: 26,
     },
   });
 };

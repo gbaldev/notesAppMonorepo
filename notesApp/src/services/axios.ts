@@ -83,8 +83,18 @@ class AxiosImpl implements HttpRequests {
     return _data;
   };
 
-  put = async () => {
-    // TO-DO put implementation
+  put = async (
+    url: string,
+    data: Partial<Note>,
+    headers = GET_DEFAULT_HEADERS,
+  ) => {
+    const {data: _data} = await this.axiosInstance.request({
+      method: 'put',
+      headers,
+      url,
+      data,
+    });
+    return _data;
   };
 
   patch = async () => {

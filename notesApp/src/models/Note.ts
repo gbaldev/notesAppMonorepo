@@ -4,11 +4,12 @@ interface Note {
   title: string;
   content: string;
   createdAt: Date;
+  editedAt: Date;
   userId?: string;
   priority: string;
   isSynced?: boolean;
   _id: string;
-  noteStatus: NoteStatus;
+  status: NoteStatus;
 }
 
 export default Note;

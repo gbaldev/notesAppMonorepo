@@ -7,6 +7,12 @@ export default StyleSheet.create({
     flexShrink: 1,
     textAlign: 'center',
     padding: 5,
+    lineHeight: 20,
+  },
+  iconContainer: {
+    marginBottom: -5,
+    paddingHorizontal: 5,
+    marginRight: -5,
   },
   disclaimerContainer: {
     justifyContent: 'space-between',
@@ -27,5 +33,11 @@ export default StyleSheet.create({
         elevation: 5,
       },
     }),
+  },
+  closeButton: {position: 'absolute', top: 15, right: 20},
+  shortDisclaimerContainer: {
+    paddingHorizontal: 10,
+    alignItems: 'center',
+    flexDirection: 'row',
   },
 });

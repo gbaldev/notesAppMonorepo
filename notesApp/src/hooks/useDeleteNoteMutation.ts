@@ -5,7 +5,7 @@ import queryClient from '../constants/QueryClient';
 
 export const useDeleteNoteMutation = (
   options?: Omit<
-    UseMutationOptions<Note, unknown, Note, unknown>,
+    UseMutationOptions<Note, unknown, string, unknown>,
     'mutationKey' | 'mutationFn'
   >,
 ) => {

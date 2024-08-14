@@ -1,5 +1,5 @@
-import React from 'react';
-import {View, Text} from 'react-native';
+import React, {useCallback, useState} from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
 import Icon from '../Icon';
 import Separator from '../Separator/Separator';
 import styles from './styles';
@@ -11,17 +11,53 @@ const NoConnectionDisclaimer: React.ComponentType<
   NoConnectionDisclaimerProps
 > = () => {
   const {isInternetReachable} = useNetInfo();
+  const [showDisclimer, setShowDisclaimer] = useState<boolean>(true);
+  const TextIcon = useCallback(
+    () => (
+      <View style={styles.iconContainer}>
+        <Icon name="cloudUpload" size={20} color={'gray'} />
+      </View>
+    ),
+    [],
+  );
 
-  return !isInternetReachable ? (
-    <View style={styles.disclaimerContainer}>
-      <Icon name="alert" size={35} />
-      <Separator height={5} />
-      <Text style={styles.disclaimerLabel}>
-        You are running on the offline mode, data will be synced once you get
-        normal conection again
-      </Text>
-    </View>
-  ) : null;
+  const Disclaimer = useCallback(() => {
+    if (showDisclimer) {
+      return (
+        <View style={styles.disclaimerContainer}>
+          <TouchableOpacity
+            onPress={() => setShowDisclaimer(false)}
+            style={styles.closeButton}>
+            <Icon name="close" color="gray" size={26} />
+          </TouchableOpacity>
+          <Icon name="alert" size={35} />
+          <Separator height={5} />
+          <Text style={styles.disclaimerLabel}>
+            You are running on the offline mode, data will be synced once you
+            get normal conection again.
+          </Text>
+          <Text style={styles.disclaimerLabel}>
+            You can also try to sync them manually by clicking over the{' '}
+            {<TextIcon />}
+            {''}
+            icon.
+          </Text>
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.disclaimerContainer}>
+          <View style={styles.shortDisclaimerContainer}>
+            <Icon name="alert" size={26} />
+            <Separator width={10} />
+            <Text style={styles.disclaimerLabel}>Running on Offline mode</Text>
+          </View>
+        </View>
+      );
+    }
+  }, [TextIcon, showDisclimer]);
+
+  return !isInternetReachable ? <Disclaimer /> : null;
 };
 
 export default NoConnectionDisclaimer;

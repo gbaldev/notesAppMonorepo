@@ -12,10 +12,12 @@ const HomeScreenContainer: React.ComponentType<
     isLoading,
     isCreating,
     isDeleting,
+    isUpdating,
     isError,
     user,
     fetchNotes,
     createNote,
+    updateNote,
     deleteNote,
     refreshNotes,
     logout,
@@ -37,6 +39,8 @@ const HomeScreenContainer: React.ComponentType<
       onCreateNote={createNote}
       onDeleteNote={deleteNote}
       onRefresh={refreshNotes}
+      onUpdateNote={updateNote}
+      isUpdating={isUpdating}
     />
   );
 };
