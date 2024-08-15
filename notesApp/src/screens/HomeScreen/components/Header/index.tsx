@@ -25,14 +25,6 @@ const Header: React.ComponentType<HeaderProps> = ({
         <Text style={styles.label}>My Notes</Text>
         <View style={styles.filters}>
           <TouchableOpacity
-            style={(filter === Filter.ALL || !filter) && styles.underlined}
-            onPress={() => {
-              setFilter(Filter.ALL);
-            }}>
-            <Text style={[styles.filterLabel]}>{Filter.ALL}</Text>
-          </TouchableOpacity>
-          <Separator width={10} />
-          <TouchableOpacity
             style={filter === Filter.ACTIVE && styles.underlined}
             onPress={() => {
               setFilter(Filter.ACTIVE);
@@ -46,6 +38,14 @@ const Header: React.ComponentType<HeaderProps> = ({
               setFilter(Filter.DELETED);
             }}>
             <Text style={[styles.filterLabel]}>{Filter.DELETED}</Text>
+          </TouchableOpacity>
+          <Separator width={10} />
+          <TouchableOpacity
+            style={(filter === Filter.ALL || !filter) && styles.underlined}
+            onPress={() => {
+              setFilter(Filter.ALL);
+            }}>
+            <Text style={[styles.filterLabel]}>{Filter.ALL}</Text>
           </TouchableOpacity>
           <Separator width={10} />
           <TouchableOpacity

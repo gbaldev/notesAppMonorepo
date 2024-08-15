@@ -76,6 +76,8 @@ export const useNotesLogic = () => {
       setNotes([
         {
           ...note,
+          createdAt: new Date(),
+          editedAt: new Date(),
           isSynced: false,
           status: NoteStatus.ACTIVE,
           _id: `localId${Math.random() * 100}${Math.random() * 100}${

@@ -7,5 +7,5 @@ export default StyleSheet.create({
     paddingBottom: 10,
     // backgroundColor: 'red',
   },
-  flatlist: {width: '100%', flexGrow: 1},
+  flatlist: {width: '100%', flexGrow: 1, height: '100%'},
 });

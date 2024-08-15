@@ -44,7 +44,7 @@ const HomeScreen: React.ComponentType<HomeScreenProps> = ({
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [editingNote, setEditingNote] = useState<Note | null>(null);
   const [filteredNotes, setFilteredNotes] = useState<Note[] | null>(null);
-  const [filter, setFilter] = useState<Filter | null>(null);
+  const [filter, setFilter] = useState<Filter | null>(Filter.ACTIVE);
 
   const handleEdit = (note: Note) => {
     setEditingNote(note);
@@ -74,13 +74,14 @@ const HomeScreen: React.ComponentType<HomeScreenProps> = ({
           filtered = notes.filter(note => !note.isSynced);
           setFilteredNotes(filtered);
           break;
+        case Filter.ALL:
+          setFilteredNotes(null);
+          break;
         case Filter.ACTIVE:
+        default:
           filtered = notes.filter(note => note.status === NoteStatus.ACTIVE);
           setFilteredNotes(filtered);
           break;
-        case Filter.ALL:
-        default:
-          setFilteredNotes(null);
       }
     }
   }, [filter, notes]);
