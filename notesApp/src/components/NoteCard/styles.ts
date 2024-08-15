@@ -54,4 +54,19 @@ export default StyleSheet.create({
     marginLeft: 5,
     alignSelf: 'flex-end',
   },
+  deleted: {
+    color: 'rgba(100,0,9, 0.5)',
+    fontWeight: '600',
+    fontSize: 10,
+    marginLeft: 5,
+    alignSelf: 'flex-end',
+  },
+  deletedBorder: {
+    borderLeftColor: 'rgba(150, 0, 0, 0.5)',
+    borderLeftWidth: 3,
+  },
+  activeBorder: {
+    borderLeftColor: 'rgba(0, 150, 0, 0.5)',
+    borderLeftWidth: 3,
+  },
 }) as {[key: string]: StyleProp<any>};

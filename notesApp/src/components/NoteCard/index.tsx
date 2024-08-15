@@ -1,25 +1,81 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {View, Text, TouchableOpacity, ActivityIndicator} from 'react-native';
 import Icon from '../Icon';
 import Note from '../../models/Note';
 import styles from './styles';
 import Separator from '../Separator/Separator';
 import {UseMutateFunction} from '@tanstack/react-query';
+import NoteStatus from '../../models/NoteStatus';
 
 interface NoteCardProps {
   item: Note;
   onDeleteItem: UseMutateFunction<Note, unknown, string, unknown>;
+  onEdit: (note: Note) => void;
 }
-const NoteCard: React.ComponentType<NoteCardProps> = ({item, onDeleteItem}) => {
-  const lastModifiedDate = new Date(item.createdAt).toLocaleDateString();
+const NoteCard: React.ComponentType<NoteCardProps> = ({
+  item,
+  onDeleteItem,
+  onEdit,
+}) => {
+  const lastModifiedDate = new Date(item.editedAt).toLocaleDateString();
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
-  const onDelete = () => {
+  const onDelete = useCallback(() => {
     setIsDeleting(true);
     onDeleteItem(item._id, {onSuccess: () => setIsDeleting(false)});
-  };
+  }, [item._id, onDeleteItem]);
+
+  const EditButton = useCallback(() => {
+    return (
+      !isDeleting && (
+        <TouchableOpacity onPress={() => onEdit(item)}>
+          <Icon name="edit" size={20} />
+        </TouchableOpacity>
+      )
+    );
+  }, [isDeleting, item, onEdit]);
+
+  const DeleteButton = useCallback(() => {
+    if (item.status === NoteStatus.DELETED) {
+      return null;
+    }
+
+    return (
+      <>
+        <Separator width={10} />
+        <TouchableOpacity onPress={onDelete}>
+          {isDeleting ? (
+            <ActivityIndicator size={20} />
+          ) : (
+            <Icon name="bin" size={20} color={'#7B0323'} />
+          )}
+        </TouchableOpacity>
+      </>
+    );
+  }, [isDeleting, item.status, onDelete]);
+
+  const CloudButton = useCallback(() => {
+    if (item.isSynced) {
+      return null;
+    }
+
+    return (
+      <>
+        <Separator width={10} />
+        <TouchableOpacity onPress={() => {}}>
+          <Icon name="cloudUpload" size={20} />
+        </TouchableOpacity>
+      </>
+    );
+  }, [item.isSynced]);
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        item.status === NoteStatus.DELETED
+          ? styles.deletedBorder
+          : styles.activeBorder,
+      ]}>
       <View style={[styles.header, styles[`header${item.priority ?? ''}`]]}>
         <View style={styles.titleContainer}>
           <Icon name="fire" {...item} size={20} />
@@ -27,26 +83,13 @@ const NoteCard: React.ComponentType<NoteCardProps> = ({item, onDeleteItem}) => {
             Last modified: {lastModifiedDate}
           </Text>
         </View>
+        {item.status === NoteStatus.DELETED && (
+          <Text style={styles.deleted}>DELETED</Text>
+        )}
         <View style={styles.titleContainer}>
-          {!isDeleting && (
-            <>
-              <TouchableOpacity onPress={() => {}}>
-                <Icon name="edit" size={20} />
-              </TouchableOpacity>
-              <Separator width={10} />
-            </>
-          )}
-          <TouchableOpacity onPress={onDelete}>
-            {isDeleting ? (
-              <ActivityIndicator size={20} />
-            ) : (
-              <Icon name="bin" size={20} color={'#7B0323'} />
-            )}
-          </TouchableOpacity>
-          <Separator width={10} />
-          <TouchableOpacity onPress={() => {}}>
-            <Icon name="cloudUpload" size={20} />
-          </TouchableOpacity>
+          <EditButton />
+          <DeleteButton />
+          <CloudButton />
         </View>
       </View>
       <Separator height={15} />

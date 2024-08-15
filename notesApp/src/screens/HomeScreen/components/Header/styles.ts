@@ -24,7 +24,19 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  label: {fontSize: 26},
+  label: {fontSize: 20, height: 30, fontWeight: '200'},
+  filters: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  filterLabel: {
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  underlined: {
+    borderBottomWidth: 1,
+    borderBottomColor: 'black',
+  },
   iconContainer: {
     backgroundColor: 'rgba(255,255,255,0.8)',
     borderRadius: 50,

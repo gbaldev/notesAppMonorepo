@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Text,
@@ -15,6 +15,8 @@ interface NewNoteModalProps {
   visible: boolean;
   onClose: () => void;
   onCreate: UseMutateFunction<Note, unknown, Note, unknown>;
+  onUpdate: UseMutateFunction<Note, unknown, Note, unknown>;
+  note: Note | null;
   isLoading: boolean;
 }
 
@@ -26,47 +28,65 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
   visible,
   onClose,
   onCreate,
+  onUpdate,
   isLoading,
+  note,
 }) => {
   const [priority, setPriority] = useState<Priorities>(priorities[2]);
-  const title = useRef<string>('');
-  const content = useRef<string>('');
+  const [title, setTitle] = useState<string>('');
+  const [content, setContent] = useState<string>('');
 
-  const setTitle = (newTitle: string) => {
-    if (newTitle?.length > 0) {
-      title.current = newTitle;
+  const handleOnClose = useCallback(() => {
+    setPriority(priorities[2]);
+    setTitle('');
+    setContent('');
+    onClose();
+  }, [onClose]);
+
+  const onSubmit = useCallback(async () => {
+    if (note) {
+      onUpdate(
+        {
+          ...note,
+          title: title,
+          priority: priority.toLowerCase(),
+          content: content,
+        },
+        {
+          onSuccess: () => {
+            handleOnClose();
+          },
+        },
+      );
+      return;
     }
-  };
-
-  const setContent = (newContent: string) => {
-    if (newContent.length > 0) {
-      content.current = newContent;
-    }
-  };
-
-  const onSubmit = async () => {
     onCreate(
       {
-        title: title.current,
-        content: content.current,
+        title: title,
+        content: content,
         priority: priority.toLowerCase(),
       } as Note,
       {
         onSuccess: () => {
-          setPriority(priorities[2]);
-          setTitle('');
-          setContent('');
-          onClose();
+          handleOnClose();
         },
       },
     );
-  };
+  }, [content, handleOnClose, note, onCreate, onUpdate, priority, title]);
+
+  useEffect(() => {
+    if (note) {
+      setTitle(note?.title);
+      setContent(note?.content);
+      setPriority(note?.priority as Priorities);
+    }
+  }, [note]);
 
   return (
     <BaseModal visible={visible}>
       <View style={styles.container}>
         <Text style={styles.modalText}>
-          <Text style={styles.boldText}>Add Note</Text>
+          <Text style={styles.boldText}>{note ? 'Edit Note' : 'Add Note'}</Text>
         </Text>
         <View style={styles.separator} />
         <Text style={styles.sectionTitle}>Title</Text>
@@ -74,6 +94,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
           style={styles.input}
           onChangeText={setTitle}
           editable={!isLoading}
+          defaultValue={note?.title}
         />
         <View style={styles.separator} />
         <Text style={styles.sectionTitle}>Content</Text>
@@ -83,6 +104,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
           multiline
           onChangeText={setContent}
           editable={!isLoading}
+          defaultValue={note?.content}
         />
         <View style={styles.separator} />
         <Text style={styles.sectionTitle}>Priority</Text>
@@ -90,7 +112,9 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
           {priorities.map((p, i) => {
             const _style = {
               backgroundColor:
-                p === priority ? prioritiesColors[i] : 'transparent',
+                p.toLowerCase() === priority.toLowerCase()
+                  ? prioritiesColors[i]
+                  : 'transparent',
             };
             return (
               <View key={i} style={styles.priorityContainer}>
@@ -116,13 +140,13 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
             {isLoading ? (
               <ActivityIndicator size={12} />
             ) : (
-              <Text style={styles.textStyle}>Add Note</Text>
+              <Text style={styles.textStyle}>{note ? 'Save' : 'Add Note'}</Text>
             )}
           </TouchableOpacity>
           <View style={styles.horizontalSeparator} />
           <TouchableOpacity
             style={styles.cancelButton}
-            onPress={onClose}
+            onPress={handleOnClose}
             disabled={isLoading}>
             <Text style={[styles.textStyle, styles.cancelText]}>Cancel</Text>
           </TouchableOpacity>

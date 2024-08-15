@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateNoteDto } from './dto/create-note.dto';
@@ -28,11 +28,24 @@ export class NotesService {
 
   update(id: string, updateNoteDto: UpdateNoteDto): Promise<Note> {
     return this.noteModel
-      .findByIdAndUpdate(id, updateNoteDto, { new: true })
+      .findByIdAndUpdate(
+        id,
+        { ...updateNoteDto, editedAt: new Date() },
+        { new: true },
+      )
       .exec();
   }
 
   remove(id: string): Promise<Note> {
-    return this.noteModel.findByIdAndDelete(id).exec();
+    return this.noteModel
+      .findByIdAndUpdate(
+        id,
+        {
+          status: 'DELETED',
+          editedAt: new Date(),
+        },
+        { new: true },
+      )
+      .exec();
   }
 }

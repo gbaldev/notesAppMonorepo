@@ -6,6 +6,8 @@ import Edit from './Edit';
 import Fire from './Fire';
 import Bin from './Bin';
 import CloudUpload from './CloudUpload';
+import Alert from './Alert';
+import Close from './Close';
 
 export const IconMap = {
   logOut: LogOut,
@@ -14,6 +16,8 @@ export const IconMap = {
   fire: Fire,
   bin: Bin,
   cloudUpload: CloudUpload,
+  alert: Alert,
+  close: Close,
 };
 
 interface Props {
@@ -37,6 +41,7 @@ const Icon: React.FC<Props> = ({
 
   return (
     <IconComponent
+      priority={'medium'}
       style={style}
       size={size}
       focused={focused}

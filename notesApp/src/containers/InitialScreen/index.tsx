@@ -5,7 +5,7 @@ import {StackActions, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import StackRoutes, {StackRoutesList} from '../../navigation/routes';
 import NotesProvider from '../../services/NotesService/provider';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {isValidToken, setSession} from '../../constants/LocalStorage';
 
 interface InitialScreenContainerProps {}
 
@@ -21,8 +21,7 @@ const InitialScreenContainer: React.ComponentType<
     try {
       const result = await authorize();
       if (result) {
-        await AsyncStorage.setItem('token', result.idToken);
-        await AsyncStorage.setItem('expiresAt', result.expiresAt.toString());
+        setSession(result.idToken, result.expiresAt);
         NotesProvider.setAuthHeader(`Bearer ${result.idToken}`);
         navigation.navigate(StackRoutes.HOME);
       }
@@ -41,12 +40,8 @@ const InitialScreenContainer: React.ComponentType<
 
   useEffect(() => {
     const validateUser = async () => {
-      const token = await AsyncStorage.getItem('token');
-      const expiresAt = await AsyncStorage.getItem('expiresAt');
-      if (token && expiresAt) {
-        const isTokenValid = new Date(Number(expiresAt)) < new Date();
-        setValidUser(isTokenValid ? user : null);
-      }
+      const isValid = await isValidToken();
+      setValidUser(isValid ? user : null);
     };
     validateUser();
   }, [user]);

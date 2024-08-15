@@ -1,56 +1,46 @@
-import React, {useCallback} from 'react';
-import {useAuth0} from 'react-native-auth0';
+import React, {useEffect} from 'react';
+import {useNotesLogic} from '../../hooks/useNotesLogic';
 import HomeScreen from '../../screens/HomeScreen';
-import useGetNotes from '../../hooks/useGetNotes';
-import useCreateNoteMutation from '../../hooks/useCreateNoteMutation';
-import useDeleteNoteMutation from '../../hooks/useDeleteNoteMutation';
 
 interface HomeScreenContainerProps {}
 
 const HomeScreenContainer: React.ComponentType<
   HomeScreenContainerProps
 > = () => {
-  const {user, clearSession} = useAuth0();
   const {
-    data: notes = [],
-    isError: isFetchingError,
-    isFetching: isGetNotesLoading,
-    refetch: onRefresh,
-  } = useGetNotes();
-  const {
-    mutate: onCreateNote,
-    isError: isCreateNoteError,
-    isPending: isCreateRunning,
-  } = useCreateNoteMutation();
-  const {
-    mutate: onDeleteNote,
-    isError: isDeleteError,
-    isPending: isDeleteRunning,
-  } = useDeleteNoteMutation();
+    notes,
+    isLoading,
+    isCreating,
+    isDeleting,
+    isUpdating,
+    isError,
+    user,
+    fetchNotes,
+    createNote,
+    updateNote,
+    deleteNote,
+    refreshNotes,
+    logout,
+  } = useNotesLogic();
 
-  const isLoading = isGetNotesLoading;
-  const isError = isCreateNoteError || isDeleteError || isFetchingError;
-
-  const onLogout = useCallback(async () => {
-    try {
-      await clearSession();
-    } catch (e) {
-      console.log('Log out cancelled', e);
-    }
-  }, [clearSession]);
+  useEffect(() => {
+    fetchNotes();
+  }, [fetchNotes]);
 
   return (
     <HomeScreen
       isLoading={isLoading}
-      isCreating={isCreateRunning}
-      isDeleting={isDeleteRunning}
+      isCreating={isCreating}
+      isDeleting={isDeleting}
       isError={isError}
       user={user}
       notes={notes}
-      onLogout={onLogout}
-      onCreateNote={onCreateNote}
-      onDeleteNote={onDeleteNote}
-      onRefresh={onRefresh}
+      onLogout={logout}
+      onCreateNote={createNote}
+      onDeleteNote={deleteNote}
+      onRefresh={refreshNotes}
+      onUpdateNote={updateNote}
+      isUpdating={isUpdating}
     />
   );
 };
