@@ -1,5 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import {View, FlatList, ListRenderItem, RefreshControl} from 'react-native';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import {
+  View,
+  FlatList,
+  ListRenderItem,
+  RefreshControl,
+  Text,
+} from 'react-native';
 import {User} from 'react-native-auth0';
 import Note from '../../models/Note';
 import NoteCard from '../../components/NoteCard';
@@ -25,6 +31,7 @@ interface HomeScreenProps {
   isDeleting: boolean;
   isCreating: boolean;
   isUpdating: boolean;
+  isInternetReachable: boolean;
 }
 
 const HomeScreen: React.ComponentType<HomeScreenProps> = ({
@@ -40,11 +47,15 @@ const HomeScreen: React.ComponentType<HomeScreenProps> = ({
   isDeleting,
   isCreating,
   isUpdating,
+  isInternetReachable,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [editingNote, setEditingNote] = useState<Note | null>(null);
   const [filteredNotes, setFilteredNotes] = useState<Note[] | null>(null);
   const [filter, setFilter] = useState<Filter | null>(Filter.ACTIVE);
+  const noData =
+    (!filteredNotes && notes.length < 1) ||
+    (filteredNotes && filteredNotes.length < 1);
 
   const handleEdit = (note: Note) => {
     setEditingNote(note);
@@ -61,6 +72,30 @@ const HomeScreen: React.ComponentType<HomeScreenProps> = ({
       <NoteCard onDeleteItem={onDeleteNote} item={item} onEdit={handleEdit} />
     );
   };
+
+  const emptyComponent = useCallback(() => {
+    let type = ` ${filter?.toLowerCase()}`;
+    if (filter === Filter.ALL) {
+      type = '';
+    }
+
+    return (
+      <View style={styles.emptyCardContainer}>
+        <Text style={styles.label}>You don't have{type} notes to display</Text>
+      </View>
+    );
+  }, [filter]);
+
+  const refreshControlHandler = useMemo(
+    () =>
+      isInternetReachable ? (
+        <RefreshControl
+          refreshing={isLoading && !isDeleting}
+          onRefresh={onRefresh}
+        />
+      ) : undefined,
+    [isDeleting, isInternetReachable, isLoading, onRefresh],
+  );
 
   useEffect(() => {
     if (filter) {
@@ -107,15 +142,13 @@ const HomeScreen: React.ComponentType<HomeScreenProps> = ({
           />
         </View>
         <FlatList
-          refreshControl={
-            <RefreshControl
-              refreshing={isLoading && !isDeleting}
-              onRefresh={onRefresh}
-            />
-          }
+          scrollEnabled={!noData}
+          refreshControl={refreshControlHandler}
           data={filteredNotes ?? notes}
           renderItem={renderItem}
           style={styles.flatlist}
+          contentContainerStyle={noData && styles.noData}
+          ListEmptyComponent={emptyComponent}
         />
       </View>
     </>

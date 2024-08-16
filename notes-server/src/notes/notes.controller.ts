@@ -8,6 +8,7 @@ import {
   Put,
   Delete,
   UseGuards,
+  BadRequestException,
 } from '@nestjs/common';
 import { NotesService } from './notes.service';
 import { CreateNoteDto } from './dto/create-note.dto';
@@ -20,12 +21,25 @@ export class NotesController {
   constructor(private readonly notesService: NotesService) {}
 
   @Post()
-  create(@Request() req: any, @Body() createNoteDto: CreateNoteDto) {
+  async create(
+    @Request() req: any,
+    @Body() payload: CreateNoteDto | CreateNoteDto[],
+  ) {
     const userId = req.user.sub;
-    return this.notesService.create({
-      ...createNoteDto,
-      userId,
-    });
+
+    if (Array.isArray(payload)) {
+      return this.notesService.createBatch(
+        payload.map((noteDto) => ({
+          ...noteDto,
+          userId,
+        })),
+      );
+    } else {
+      return this.notesService.create({
+        ...payload,
+        userId,
+      });
+    }
   }
 
   @Get()
@@ -41,9 +55,19 @@ export class NotesController {
     return this.notesService.findOne(id);
   }
 
-  @Put(':id')
-  update(@Param('id') id: string, @Body() updateNoteDto: UpdateNoteDto) {
-    return this.notesService.update(id, updateNoteDto);
+  @Put(':id?')
+  async update(
+    @Param('id') id: string,
+    @Body() payload: UpdateNoteDto | { id: string; note: UpdateNoteDto }[],
+  ) {
+    if (Array.isArray(payload)) {
+      return this.notesService.updateBatch(payload);
+    } else {
+      if (!id) {
+        throw new BadRequestException('ID is required for single note update');
+      }
+      return this.notesService.update(id, payload);
+    }
   }
 
   @Delete(':id')

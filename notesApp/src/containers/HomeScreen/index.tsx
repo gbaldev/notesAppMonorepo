@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {useNotesLogic} from '../../hooks/useNotesLogic';
 import HomeScreen from '../../screens/HomeScreen';
+import {useNetInfo} from '@react-native-community/netinfo';
 
 interface HomeScreenContainerProps {}
 
@@ -27,6 +28,19 @@ const HomeScreenContainer: React.ComponentType<
     fetchNotes();
   }, [fetchNotes]);
 
+  const {syncData} = useNotesLogic();
+  const {isInternetReachable} = useNetInfo();
+
+  useEffect(() => {
+    console.log('Net state changed');
+    if (isInternetReachable) {
+      console.log('Starting to sync');
+      syncData();
+    } else if (isInternetReachable !== null) {
+      console.log('fron listener, is recheable?: ', isInternetReachable);
+    }
+  }, [isInternetReachable, syncData]);
+
   return (
     <HomeScreen
       isLoading={isLoading}
@@ -41,6 +55,7 @@ const HomeScreenContainer: React.ComponentType<
       onRefresh={refreshNotes}
       onUpdateNote={updateNote}
       isUpdating={isUpdating}
+      isInternetReachable={isInternetReachable}
     />
   );
 };

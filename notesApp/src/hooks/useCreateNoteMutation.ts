@@ -5,14 +5,17 @@ import queryClient from '../constants/QueryClient';
 
 export const useCreateNoteMutation = (
   options?: Omit<
-    UseMutationOptions<Note, unknown, Note, unknown>,
+    UseMutationOptions<Note | Note[], unknown, Note | Note[], unknown>,
     'mutationKey' | 'mutationFn'
   >,
 ) => {
   return useMutation({
     ...options,
     mutationKey: ['createNote'],
-    mutationFn: NotesService.createNote,
+    mutationFn: (data: Note | Note[]) =>
+      Array.isArray(data)
+        ? NotesService.createNotes(data)
+        : NotesService.createNote(data),
     onSuccess: () => {
       queryClient.invalidateQueries('notes' as any);
     },

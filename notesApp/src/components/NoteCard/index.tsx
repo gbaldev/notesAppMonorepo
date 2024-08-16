@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {View, Text, TouchableOpacity, ActivityIndicator} from 'react-native';
 import Icon from '../Icon';
 import Note from '../../models/Note';
@@ -6,6 +6,12 @@ import styles from './styles';
 import Separator from '../Separator/Separator';
 import {UseMutateFunction} from '@tanstack/react-query';
 import NoteStatus from '../../models/NoteStatus';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withSpring,
+} from 'react-native-reanimated';
 
 interface NoteCardProps {
   item: Note;
@@ -23,6 +29,11 @@ const NoteCard: React.ComponentType<NoteCardProps> = ({
     setIsDeleting(true);
     onDeleteItem(item._id, {onSuccess: () => setIsDeleting(false)});
   }, [item._id, onDeleteItem]);
+  const opacity = useSharedValue(1);
+  const style = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+  }));
+  const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
   const EditButton = useCallback(() => {
     return (
@@ -61,12 +72,18 @@ const NoteCard: React.ComponentType<NoteCardProps> = ({
     return (
       <>
         <Separator width={10} />
-        <TouchableOpacity onPress={() => {}}>
-          <Icon name="cloudUpload" size={20} />
-        </TouchableOpacity>
+        <AnimatedTouchable style={style} onPress={() => {}}>
+          <Icon name="cloudUpload" size={20} color={'rgba(0,100,000,1)'} />
+        </AnimatedTouchable>
       </>
     );
-  }, [item.isSynced]);
+  }, [AnimatedTouchable, item.isSynced, style]);
+
+  useEffect(() => {
+    if (!item.isSynced) {
+      opacity.value = withRepeat(withSpring(0.3, {duration: 900}), -1, true);
+    }
+  }, [item.isSynced, opacity]);
 
   return (
     <View

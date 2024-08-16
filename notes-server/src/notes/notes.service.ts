@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateNoteDto } from './dto/create-note.dto';
@@ -12,6 +12,10 @@ export class NotesService {
   create(createNoteDto: CreateNoteDto): Promise<Note> {
     const createdNote = new this.noteModel(createNoteDto);
     return createdNote.save();
+  }
+
+  createBatch(createNotesDto: CreateNoteDto[]): Promise<Note[]> {
+    return this.noteModel.create(createNotesDto);
   }
 
   findAll(): Promise<Note[]> {
@@ -34,6 +38,21 @@ export class NotesService {
         { new: true },
       )
       .exec();
+  }
+
+  async updateBatch(updateNotesDto: any[]): Promise<Note[]> {
+    const updateOperations = updateNotesDto.map((note) => ({
+      updateOne: {
+        filter: { _id: note._id },
+        update: { ...note, editedAt: new Date() },
+      },
+    }));
+
+    await this.noteModel.bulkWrite(updateOperations);
+
+    return this.noteModel.find({
+      _id: { $in: updateNotesDto.map((item) => item._id) },
+    });
   }
 
   remove(id: string): Promise<Note> {
