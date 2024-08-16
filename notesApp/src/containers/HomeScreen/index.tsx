@@ -55,7 +55,7 @@ const HomeScreenContainer: React.ComponentType<
       onRefresh={refreshNotes}
       onUpdateNote={updateNote}
       isUpdating={isUpdating}
-      isInternetReachable={isInternetReachable}
+      isInternetReachable={!!isInternetReachable}
     />
   );
 };
