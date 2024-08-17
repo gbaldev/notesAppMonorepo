@@ -22,6 +22,7 @@ class NotesApi {
   getNote = (id: string) => `${this.base}/notes/${id}`;
   deleteNote = (id: string) => `${this.base}/notes/${id}`;
   updateNote = (id: string) => `${this.base}/notes/${id}`;
+  updateNotes = () => `${this.base}/notes`;
 }
 
 const NotesApiInstance = new NotesApi();

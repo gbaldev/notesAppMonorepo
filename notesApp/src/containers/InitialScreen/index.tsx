@@ -5,14 +5,18 @@ import {StackActions, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import StackRoutes, {StackRoutesList} from '../../navigation/routes';
 import NotesProvider from '../../services/NotesService/provider';
-import {isValidToken, setSession} from '../../constants/LocalStorage';
+import {
+  getSession,
+  isValidToken,
+  setSession,
+} from '../../constants/LocalStorage';
 
 interface InitialScreenContainerProps {}
 
 const InitialScreenContainer: React.ComponentType<
   InitialScreenContainerProps
 > = () => {
-  const {authorize, user, isLoading, getCredentials} = useAuth0();
+  const {authorize, user, isLoading} = useAuth0();
   const [validUser, setValidUser] = useState<User | null>(null);
   const navigation =
     useNavigation<NativeStackNavigationProp<StackRoutesList>>();
@@ -22,7 +26,6 @@ const InitialScreenContainer: React.ComponentType<
       const result = await authorize();
       if (result) {
         setSession(result.idToken, result.expiresAt);
-        NotesProvider.setAuthHeader(`Bearer ${result.idToken}`);
         navigation.navigate(StackRoutes.HOME);
       }
     } catch (e) {
@@ -31,12 +34,13 @@ const InitialScreenContainer: React.ComponentType<
   }, [authorize, navigation]);
 
   const onInit = useCallback(async () => {
-    const creds = await getCredentials();
-    if (validUser && creds) {
-      NotesProvider.setAuthHeader(`Bearer ${creds.idToken}`);
+    const validToken = await isValidToken();
+    if (validToken) {
+      const {idToken} = await getSession();
+      NotesProvider.setAuthHeader(`Bearer ${idToken}`);
       navigation.dispatch(StackActions.replace(StackRoutes.HOME));
     }
-  }, [getCredentials, navigation, validUser]);
+  }, [navigation]);
 
   useEffect(() => {
     const validateUser = async () => {

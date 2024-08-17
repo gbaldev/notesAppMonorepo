@@ -14,11 +14,15 @@ import {
 import NoteStatus from '../models/NoteStatus';
 import {UseMutateFunction} from '@tanstack/react-query';
 import useUpdateNoteMutation from './useUpdateNoteMutation';
+import {clearSession as clearLocalSession} from '../constants/LocalStorage';
+import {CommonActions, useNavigation} from '@react-navigation/native';
+import StackRoutes from '../navigation/routes';
 
 export const useNotesLogic = () => {
   const {user, clearSession} = useAuth0();
   const {notes, setNotes} = useNotesStore();
   const {isInternetReachable} = useNetInfo();
+  const navigation = useNavigation();
 
   const getNoteById = useCallback((id: string): Note | undefined => {
     return selectNoteById(id)(useNotesStore.getState());
@@ -66,10 +70,17 @@ export const useNotesLogic = () => {
   const logout = useCallback(async () => {
     try {
       await clearSession();
+      await clearLocalSession();
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{name: StackRoutes.INITIAL}],
+        }),
+      );
     } catch (e) {
       console.log('Log out cancelled', e);
     }
-  }, [clearSession]);
+  }, [clearSession, navigation]);
 
   const createUnsyncedNote = useCallback(
     (note: Note, {onSuccess}: {onSuccess: () => void}) => {
@@ -149,6 +160,42 @@ export const useNotesLogic = () => {
     }
   }, [deleteNoteMutation, deleteUnsyncedNote, isInternetReachable]);
 
+  const syncData = useCallback(async () => {
+    console.log(user);
+    const unsynedNotes = getUnsyncedNotes();
+    const newNotes = unsynedNotes
+      .filter(note => note._id.includes('localId'))
+      .map(note => ({...note, _id: undefined})) as unknown as Note[];
+    const modifiedNotes = unsynedNotes.filter(
+      note => !note._id.includes('localId'),
+    ) as unknown as Note[];
+
+    if (newNotes.length === 0 && modifiedNotes.length === 0) {
+      console.log('Nothing to sync, aborting');
+      return;
+    }
+
+    if (newNotes.length > 0) {
+      console.log('creating notes...');
+      createNoteMutation(newNotes, {
+        onSuccess: () => {
+          console.log('Creation success');
+        },
+      });
+    }
+
+    if (modifiedNotes.length > 0) {
+      console.log('updating notes...');
+      updateNoteMutation(modifiedNotes, {
+        onSuccess: () => {
+          console.log('Updating success');
+        },
+      });
+    }
+
+    console.log('Sync done');
+  }, [createNoteMutation, getUnsyncedNotes, updateNoteMutation, user]);
+
   return {
     notes,
     isLoading: isGetNotesLoading,
@@ -165,6 +212,7 @@ export const useNotesLogic = () => {
     createNote,
     deleteNote,
     updateNote,
+    syncData,
     refreshNotes: onRefresh,
     logout,
   };

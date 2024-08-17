@@ -24,8 +24,10 @@ class AxiosImpl implements HttpRequests {
     this.axiosInstance.interceptors.response.use(
       (response: any) => response,
       (error: any) => {
+        console.log('aver');
         if (error.response && error.response.status === 401) {
           if (this.unauthorizedHandler) {
+            console.log({error}, {response: error.response});
             this.unauthorizedHandler();
           }
         }
@@ -62,7 +64,7 @@ class AxiosImpl implements HttpRequests {
 
   post = async (
     url: string,
-    data: Partial<Note>,
+    data: Partial<Note> | Partial<Note>[],
     headers = GET_DEFAULT_HEADERS,
   ) => {
     const {data: _data} = await this.axiosInstance.request({
@@ -85,7 +87,7 @@ class AxiosImpl implements HttpRequests {
 
   put = async (
     url: string,
-    data: Partial<Note>,
+    data: Partial<Note> | Partial<Note>[],
     headers = GET_DEFAULT_HEADERS,
   ) => {
     const {data: _data} = await this.axiosInstance.request({
