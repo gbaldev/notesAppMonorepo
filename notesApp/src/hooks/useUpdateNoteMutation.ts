@@ -1,7 +1,7 @@
 import {useMutation, type UseMutationOptions} from '@tanstack/react-query';
 import Note from '../models/Note';
 import NotesService from '../services/NotesService';
-import {NativeModules} from 'react-native';
+import Database from '../../DatabaseModule';
 
 type UpdatePayload = Note | Note[];
 
@@ -11,8 +11,6 @@ export const useUpdateNoteMutation = (
     'mutationKey' | 'mutationFn'
   >,
 ) => {
-  const {Database} = NativeModules;
-
   return useMutation({
     ...options,
     mutationKey: ['updateNote'],
