@@ -16,28 +16,22 @@ const HomeScreenContainer: React.ComponentType<
     isUpdating,
     isError,
     user,
-    fetchNotes,
     createNote,
     updateNote,
     deleteNote,
     refreshNotes,
+    reloadNotes,
     logout,
   } = useNotesLogic();
-
-  useEffect(() => {
-    fetchNotes();
-  }, [fetchNotes]);
 
   const {syncData} = useNotesLogic();
   const {isInternetReachable} = useNetInfo();
 
   useEffect(() => {
-    console.log('Net state changed');
     if (isInternetReachable) {
-      console.log('Starting to sync');
       syncData();
     } else if (isInternetReachable !== null) {
-      console.log('fron listener, is recheable?: ', isInternetReachable);
+      // No internet connection
     }
   }, [isInternetReachable, syncData]);
 
@@ -54,6 +48,7 @@ const HomeScreenContainer: React.ComponentType<
       onDeleteNote={deleteNote}
       onRefresh={refreshNotes}
       onUpdateNote={updateNote}
+      reloadNotes={reloadNotes}
       isUpdating={isUpdating}
       isInternetReachable={!!isInternetReachable}
     />

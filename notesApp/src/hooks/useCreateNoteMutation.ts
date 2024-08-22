@@ -1,7 +1,7 @@
 import {useMutation, type UseMutationOptions} from '@tanstack/react-query';
 import Note from '../models/Note';
 import NotesService from '../services/NotesService';
-import queryClient from '../constants/QueryClient';
+import Database from '../../DatabaseModule';
 
 export const useCreateNoteMutation = (
   options?: Omit<
@@ -16,8 +16,10 @@ export const useCreateNoteMutation = (
       Array.isArray(data)
         ? NotesService.createNotes(data)
         : NotesService.createNote(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries('notes' as any);
+    onSuccess: async data => {
+      Array.isArray(data)
+        ? await Database.createNotes(data)
+        : await Database.createNote(data);
     },
   });
 };

@@ -1,7 +1,7 @@
 import {useMutation, type UseMutationOptions} from '@tanstack/react-query';
 import Note from '../models/Note';
 import NotesService from '../services/NotesService';
-import queryClient from '../constants/QueryClient';
+import Database from '../../DatabaseModule';
 
 export const useDeleteNoteMutation = (
   options?: Omit<
@@ -13,8 +13,8 @@ export const useDeleteNoteMutation = (
     ...options,
     mutationKey: ['deleteNote'],
     mutationFn: NotesService.deleteNote,
-    onSuccess: () => {
-      queryClient.invalidateQueries('notes' as any);
+    onSuccess: async data => {
+      await Database.updateNote(data);
     },
   });
 };

@@ -1,4 +1,5 @@
-import {useCallback, useMemo} from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import {useCallback, useEffect, useMemo} from 'react';
 import {useAuth0} from 'react-native-auth0';
 import {useNotesStore} from '../store/notesStore';
 import useGetNotes from './useGetNotes';
@@ -17,6 +18,15 @@ import useUpdateNoteMutation from './useUpdateNoteMutation';
 import {clearSession as clearLocalSession} from '../constants/LocalStorage';
 import {CommonActions, useNavigation} from '@react-navigation/native';
 import StackRoutes from '../navigation/routes';
+import Database from '../../DatabaseModule';
+import {
+  doesntExistsLocally,
+  isModifiedNote,
+  isNewNote,
+  noteShouldBeUpdated,
+  prepareNotesToCreation,
+  removeNotes,
+} from '../constants/consts';
 
 export const useNotesLogic = () => {
   const {user, clearSession} = useAuth0();
@@ -37,7 +47,7 @@ export const useNotesLogic = () => {
   }, []);
 
   const {
-    data: fetchedNotes,
+    data: fetchedNotes = [],
     isError: isFetchingError,
     isFetching: isGetNotesLoading,
     refetch: onRefresh,
@@ -61,12 +71,6 @@ export const useNotesLogic = () => {
     isPending: isDeleteRunning,
   } = useDeleteNoteMutation();
 
-  const fetchNotes = useCallback(() => {
-    if (fetchedNotes) {
-      setNotes(fetchedNotes.map(n => ({...n, isSynced: true})));
-    }
-  }, [fetchedNotes, setNotes]);
-
   const logout = useCallback(async () => {
     try {
       await clearSession();
@@ -83,23 +87,17 @@ export const useNotesLogic = () => {
   }, [clearSession, navigation]);
 
   const createUnsyncedNote = useCallback(
-    (note: Note, {onSuccess}: {onSuccess: () => void}) => {
-      setNotes([
-        {
-          ...note,
-          createdAt: new Date(),
-          editedAt: new Date(),
-          isSynced: false,
-          status: NoteStatus.ACTIVE,
-          _id: `localId${Math.random() * 100}${Math.random() * 100}${
-            Math.random() * 100
-          }`,
-        },
-        ...notes,
-      ]);
+    async (note: Note, {onSuccess}: {onSuccess: () => void}) => {
+      await Database.createNote({
+        ...note,
+        createdAt: new Date(),
+        editedAt: new Date(),
+        isSynced: false,
+        status: NoteStatus.ACTIVE,
+      });
       onSuccess();
     },
-    [notes, setNotes],
+    [],
   );
 
   const createNote = useMemo(() => {
@@ -114,15 +112,22 @@ export const useNotesLogic = () => {
     isInternetReachable,
   ]) as unknown as UseMutateFunction<Note, unknown, Note, unknown>;
 
+  const reloadNotes = useCallback(() => {
+    const loadNotes = async () => {
+      const DBnotes = await Database.getNotes();
+      setNotes(DBnotes.reverse());
+    };
+    loadNotes();
+  }, []);
+
   const updateUnsyncedNote = useCallback(
-    (note: Note, {onSuccess}: {onSuccess: () => void}) => {
-      const newNotes = notes.map(_note =>
-        _note._id === note._id ? {...note, isSynced: false} : _note,
-      );
-      setNotes(newNotes);
+    async (data: Note | Note[], {onSuccess}: {onSuccess: () => void}) => {
+      Array.isArray(data)
+        ? await Database.updateNotes(data.map(n => ({...n, isSynced: false})))
+        : await Database.updateNote({...data, isSynced: false});
       onSuccess();
     },
-    [notes, setNotes],
+    [],
   );
 
   const updateNote = useMemo(() => {
@@ -138,18 +143,14 @@ export const useNotesLogic = () => {
   ]) as unknown as UseMutateFunction<Note, unknown, Note, unknown>;
 
   const deleteUnsyncedNote = useCallback(
-    (noteId: string, {onSuccess}: {onSuccess: () => void}) => {
-      setNotes(
-        notes.map(note => {
-          if (noteId === note._id) {
-            return {...note, isSynced: false, status: NoteStatus.DELETED};
-          }
-          return note;
-        }),
-      );
+    async (noteId: string, {onSuccess}: {onSuccess: () => void}) => {
+      const noteToDelete = notes.find(n => n._id === noteId);
+      if (noteToDelete) {
+        await Database.deleteNote({...noteToDelete, isSynced: false});
+      }
       onSuccess();
     },
-    [notes, setNotes],
+    [notes],
   ) as unknown as UseMutateFunction<Note, unknown, string, unknown>;
 
   const deleteNote = useMemo(() => {
@@ -161,40 +162,99 @@ export const useNotesLogic = () => {
   }, [deleteNoteMutation, deleteUnsyncedNote, isInternetReachable]);
 
   const syncData = useCallback(async () => {
-    console.log(user);
-    const unsynedNotes = getUnsyncedNotes();
-    const newNotes = unsynedNotes
-      .filter(note => note._id.includes('localId'))
-      .map(note => ({...note, _id: undefined})) as unknown as Note[];
-    const modifiedNotes = unsynedNotes.filter(
-      note => !note._id.includes('localId'),
-    ) as unknown as Note[];
+    const unsynedNotes = (await Database.getUnsyncedNotes()) ?? [];
 
-    if (newNotes.length === 0 && modifiedNotes.length === 0) {
-      console.log('Nothing to sync, aborting');
+    if (unsynedNotes.length < 1) {
       return;
     }
 
-    if (newNotes.length > 0) {
-      console.log('creating notes...');
-      createNoteMutation(newNotes, {
-        onSuccess: () => {
-          console.log('Creation success');
-        },
+    const localNotes = unsynedNotes.filter(isNewNote);
+    const pendingNotes = localNotes.map(
+      prepareNotesToCreation,
+    ) as unknown as Note[];
+    const modifiedNotes = unsynedNotes.filter(
+      isModifiedNote,
+    ) as unknown as Note[];
+
+    let createPromise = Promise.resolve(null);
+    let updatePromise = Promise.resolve(null);
+
+    if (pendingNotes.length > 0) {
+      createPromise = new Promise((resolve, reject) => {
+        createNoteMutation(pendingNotes, {
+          onSuccess: async () => {
+            await removeNotes(localNotes);
+            resolve(null);
+          },
+          onError: (error: any) => {
+            reject(error);
+          },
+        });
       });
     }
-
     if (modifiedNotes.length > 0) {
-      console.log('updating notes...');
-      updateNoteMutation(modifiedNotes, {
-        onSuccess: () => {
-          console.log('Updating success');
-        },
+      updatePromise = new Promise((resolve, reject) => {
+        updateNoteMutation(modifiedNotes, {
+          onSuccess: () => {
+            resolve(null);
+          },
+          onError: (error: any) => {
+            reject(error);
+          },
+        });
       });
     }
 
-    console.log('Sync done');
-  }, [createNoteMutation, getUnsyncedNotes, updateNoteMutation, user]);
+    Promise.all([createPromise, updatePromise])
+      .then(() => {
+        reloadNotes();
+      })
+      .catch((error: any) => {
+        console.error('Error while sync:', error);
+      });
+  }, [createNoteMutation, updateNoteMutation, reloadNotes]);
+
+  useEffect(() => {
+    const updateContentIfnecessary = async () => {
+      let updated = false;
+
+      try {
+        const DBnotes = await Database.getNotes();
+
+        let notesToUpdate = DBnotes.filter(note =>
+          noteShouldBeUpdated(note, fetchedNotes),
+        );
+
+        if (notesToUpdate.length > 0) {
+          await Database.updateNotes(notesToUpdate);
+          updated = true;
+        }
+
+        const storedNotesIDs = DBnotes.map(note => note._id);
+        const unstoredNotes = fetchedNotes.filter(note =>
+          doesntExistsLocally(note, storedNotesIDs),
+        );
+
+        if (unstoredNotes.length > 0) {
+          await Database.createNotes(unstoredNotes);
+          updated = true;
+        }
+      } catch (e: any) {
+        console.log('Something went wrong updating data', {e});
+      }
+      try {
+        if (updated) {
+          await reloadNotes();
+        }
+      } catch (e: any) {
+        console.log('something went wrong loading data from DB', e);
+      }
+    };
+
+    updateContentIfnecessary();
+  }, [fetchedNotes]);
+
+  useEffect(() => reloadNotes(), []);
 
   return {
     notes,
@@ -205,13 +265,13 @@ export const useNotesLogic = () => {
     isError:
       isFetchingError || isCreateNoteError || isDeleteError || isUpdateError,
     user,
-    fetchNotes,
     getNoteById,
     getNotesByPriority,
     getUnsyncedNotes,
     createNote,
     deleteNote,
     updateNote,
+    reloadNotes,
     syncData,
     refreshNotes: onRefresh,
     logout,

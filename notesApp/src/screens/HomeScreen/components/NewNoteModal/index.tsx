@@ -16,6 +16,7 @@ interface NewNoteModalProps {
   onClose: () => void;
   onCreate: UseMutateFunction<Note, unknown, Note, unknown>;
   onUpdate: UseMutateFunction<Note, unknown, Note, unknown>;
+  reloadNotes: () => void;
   note: Note | null;
   isLoading: boolean;
 }
@@ -29,6 +30,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
   onClose,
   onCreate,
   onUpdate,
+  reloadNotes,
   isLoading,
   note,
 }) => {
@@ -54,6 +56,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
         },
         {
           onSuccess: () => {
+            reloadNotes();
             handleOnClose();
           },
         },
@@ -68,11 +71,21 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
       } as Note,
       {
         onSuccess: () => {
+          reloadNotes();
           handleOnClose();
         },
       },
     );
-  }, [content, handleOnClose, note, onCreate, onUpdate, priority, title]);
+  }, [
+    content,
+    handleOnClose,
+    note,
+    onCreate,
+    onUpdate,
+    priority,
+    reloadNotes,
+    title,
+  ]);
 
   useEffect(() => {
     if (note) {
