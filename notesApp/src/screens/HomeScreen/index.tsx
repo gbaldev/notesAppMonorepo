@@ -25,6 +25,7 @@ interface HomeScreenProps {
   onCreateNote: UseMutateFunction<Note, unknown, Note, unknown>;
   onDeleteNote: UseMutateFunction<Note, unknown, string, unknown>;
   onUpdateNote: UseMutateFunction<Note, unknown, Note, unknown>;
+  reloadNotes: () => void;
   onRefresh: () => void;
   isError: boolean;
   isLoading: boolean;
@@ -41,7 +42,7 @@ const HomeScreen: React.ComponentType<HomeScreenProps> = ({
   onCreateNote,
   onDeleteNote,
   onUpdateNote,
-  // isError,
+  reloadNotes,
   isLoading,
   onRefresh,
   isDeleting,
@@ -69,7 +70,12 @@ const HomeScreen: React.ComponentType<HomeScreenProps> = ({
 
   const renderItem: ListRenderItem<Note> = ({item}) => {
     return (
-      <NoteCard onDeleteItem={onDeleteNote} item={item} onEdit={handleEdit} />
+      <NoteCard
+        onDeleteItem={onDeleteNote}
+        reloadNotes={reloadNotes}
+        item={item}
+        onEdit={handleEdit}
+      />
     );
   };
 
@@ -128,6 +134,7 @@ const HomeScreen: React.ComponentType<HomeScreenProps> = ({
         onClose={onCloseModal}
         onCreate={onCreateNote}
         onUpdate={onUpdateNote}
+        reloadNotes={reloadNotes}
         isLoading={isCreating || isUpdating}
         note={editingNote}
       />

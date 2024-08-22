@@ -16,19 +16,26 @@ import Animated, {
 interface NoteCardProps {
   item: Note;
   onDeleteItem: UseMutateFunction<Note, unknown, string, unknown>;
+  reloadNotes: () => void;
   onEdit: (note: Note) => void;
 }
 const NoteCard: React.ComponentType<NoteCardProps> = ({
   item,
   onDeleteItem,
+  reloadNotes,
   onEdit,
 }) => {
   const lastModifiedDate = new Date(item.editedAt).toLocaleDateString();
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const onDelete = useCallback(() => {
     setIsDeleting(true);
-    onDeleteItem(item._id, {onSuccess: () => setIsDeleting(false)});
-  }, [item._id, onDeleteItem]);
+    onDeleteItem(item._id, {
+      onSuccess: () => {
+        setIsDeleting(false);
+        reloadNotes();
+      },
+    });
+  }, [item._id, onDeleteItem, reloadNotes]);
   const opacity = useSharedValue(1);
   const style = useAnimatedStyle(() => ({
     opacity: opacity.value,
