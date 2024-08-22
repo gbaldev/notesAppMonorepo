@@ -28,12 +28,10 @@ const HomeScreenContainer: React.ComponentType<
   const {isInternetReachable} = useNetInfo();
 
   useEffect(() => {
-    console.log('Net state changed');
     if (isInternetReachable) {
-      console.log('Starting to sync');
       syncData();
     } else if (isInternetReachable !== null) {
-      console.log('fron listener, is recheable?: ', isInternetReachable);
+      // No internet connection
     }
   }, [isInternetReachable, syncData]);
 

@@ -43,10 +43,8 @@ class DatabaseManager {
       var _createdAt: Date
       if let createdAtString = createdAt,
          let date = self.dateFormatter.date(from: createdAtString) {
-        print("this date \(createdAtString) \(date)")
         _createdAt = date
       } else {
-        print("no - date")
         _createdAt = Date()
       }
       
@@ -103,13 +101,12 @@ class DatabaseManager {
   
   func updateNotes(notesData: [NSDictionary]) {
     executeOnMainQueue {
-      print("Updating data in batch")
       do {
         try self.realm?.write {
           for noteData in notesData {
             guard let id = noteData["_id"] as? String,
                   let note = self.realm?.object(ofType: Note.self, forPrimaryKey: id) else {
-              print("Error: No se encontró la nota con el id \(String(describing: noteData["id"]))")
+              print("Error: ID not found \(String(describing: noteData["id"]))")
               continue
             }
             note.title = noteData["title"] as? String ?? ""
@@ -128,9 +125,7 @@ class DatabaseManager {
     
   func removeNote(_id: String) {
     executeOnMainQueue {
-      print("Busxcnado note")
       guard let note = self.realm?.object(ofType: Note.self, forPrimaryKey: _id) else { return }
-      print("Encontre la note")
       do {
         try self.realm?.write {
           self.realm?.delete(note)
@@ -143,7 +138,6 @@ class DatabaseManager {
 
   func deleteNote(_id: String, isSynced: Bool?) {
     executeOnMainQueue {
-      print("trying to delete \(_id)")
       guard let note = self.realm?.object(ofType: Note.self, forPrimaryKey: _id) else { return }
       do {
         try self.realm?.write {

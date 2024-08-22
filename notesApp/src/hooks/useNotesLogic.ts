@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {useCallback, useEffect, useMemo} from 'react';
 import {useAuth0} from 'react-native-auth0';
 import {useNotesStore} from '../store/notesStore';
@@ -18,13 +19,20 @@ import {clearSession as clearLocalSession} from '../constants/LocalStorage';
 import {CommonActions, useNavigation} from '@react-navigation/native';
 import StackRoutes from '../navigation/routes';
 import Database from '../../DatabaseModule';
+import {
+  doesntExistsLocally,
+  isModifiedNote,
+  isNewNote,
+  noteShouldBeUpdated,
+  prepareNotesToCreation,
+  removeNotes,
+} from '../constants/consts';
 
 export const useNotesLogic = () => {
   const {user, clearSession} = useAuth0();
   const {notes, setNotes} = useNotesStore();
   const {isInternetReachable} = useNetInfo();
   const navigation = useNavigation();
-  // const [localNotes, setLocalNotes] = useState<Note[]>([]);
 
   const getNoteById = useCallback((id: string): Note | undefined => {
     return selectNoteById(id)(useNotesStore.getState());
@@ -86,23 +94,7 @@ export const useNotesLogic = () => {
         editedAt: new Date(),
         isSynced: false,
         status: NoteStatus.ACTIVE,
-        _id: `localId${Math.random() * 100}${Math.random() * 100}${
-          Math.random() * 100
-        }`,
       });
-      // setNotes([
-      //   {
-      //     ...note,
-      //     createdAt: new Date(),
-      //     editedAt: new Date(),
-      //     isSynced: false,
-      //     status: NoteStatus.ACTIVE,
-      //     _id: `localId${Math.random() * 100}${Math.random() * 100}${
-      //       Math.random() * 100
-      //     }`,
-      //   },
-      //   ...notes,
-      // ]);
       onSuccess();
     },
     [],
@@ -120,11 +112,12 @@ export const useNotesLogic = () => {
     isInternetReachable,
   ]) as unknown as UseMutateFunction<Note, unknown, Note, unknown>;
 
-  const reloadNotes = useCallback(async () => {
-    console.log('Loading notes');
-    const DBnotes = await Database.getNotes();
-    setNotes(DBnotes.reverse());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  const reloadNotes = useCallback(() => {
+    const loadNotes = async () => {
+      const DBnotes = await Database.getNotes();
+      setNotes(DBnotes.reverse());
+    };
+    loadNotes();
   }, []);
 
   const updateUnsyncedNote = useCallback(
@@ -169,56 +162,29 @@ export const useNotesLogic = () => {
   }, [deleteNoteMutation, deleteUnsyncedNote, isInternetReachable]);
 
   const syncData = useCallback(async () => {
-    /*
-      #1 getUnsynced notes from DB
-
-      #2 separate them from new ones (with inernal) and edited ones (with external id)
-      ## updatedNotesLocal, createdNotesLocal
-
-      #3 Update edited ones => store RESPONSE (updated in the backend) in updatedNotes
-      #4 Post crated locally ones => store RESPONSE (created notes with real ID from BE) in createdNotes
-
-      #5 Update edited ones in the database WITH Database.update(updatedNotes)
-      ## Update process succes lml
-
-      #6 Create new notes with the createdNotes from BE(with their real ID, now synced)
-
-      #7 Delete from DB the notes in createdNotesLocal (now stored with real ID in the DB)
-      ## Create Process succes lml
-
-      #8 set the local notes to provide the app with getting notes from Database.getNotes();
-      ## Sync process done
-    */
-    console.log('Sync process started');
     const unsynedNotes = (await Database.getUnsyncedNotes()) ?? [];
 
     if (unsynedNotes.length < 1) {
-      console.log('Nothing to update');
       return;
     }
 
-    const newNotes = unsynedNotes.filter(note => note._id.includes('localId'));
-    const newNotesWithoutID = newNotes.map(note => ({
-      ...note,
-      _id: undefined,
-    })) as unknown as Note[];
-
+    const localNotes = unsynedNotes.filter(isNewNote);
+    const pendingNotes = localNotes.map(
+      prepareNotesToCreation,
+    ) as unknown as Note[];
     const modifiedNotes = unsynedNotes.filter(
-      note => !note._id.includes('localId'),
+      isModifiedNote,
     ) as unknown as Note[];
 
     let createPromise = Promise.resolve(null);
     let updatePromise = Promise.resolve(null);
 
-    if (newNotesWithoutID.length > 0) {
-      console.log('Notes to create: ', newNotesWithoutID.length);
+    console.log({pendingNotes});
+    if (pendingNotes.length > 0) {
       createPromise = new Promise((resolve, reject) => {
-        createNoteMutation(newNotesWithoutID, {
+        createNoteMutation(pendingNotes, {
           onSuccess: async () => {
-            for (const note of newNotes) {
-              await Database.removeNote(note);
-            }
-            console.log('Creation success');
+            await removeNotes(localNotes);
             resolve(null);
           },
           onError: (error: any) => {
@@ -227,13 +193,10 @@ export const useNotesLogic = () => {
         });
       });
     }
-
     if (modifiedNotes.length > 0) {
-      console.log('Notes to update: ', modifiedNotes.length);
       updatePromise = new Promise((resolve, reject) => {
         updateNoteMutation(modifiedNotes, {
           onSuccess: () => {
-            console.log('Updating success');
             resolve(null);
           },
           onError: (error: any) => {
@@ -245,7 +208,6 @@ export const useNotesLogic = () => {
 
     Promise.all([createPromise, updatePromise])
       .then(() => {
-        console.log('Sync done');
         reloadNotes();
       })
       .catch((error: any) => {
@@ -254,48 +216,28 @@ export const useNotesLogic = () => {
   }, [createNoteMutation, updateNoteMutation, reloadNotes]);
 
   useEffect(() => {
-    console.log('Initial loading');
-    reloadNotes();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    const updateContent = async () => {
+    const updateContentIfnecessary = async () => {
       let updated = false;
+
       try {
-        //  get notes from DB and compare with ServerSide data
         const DBnotes = await Database.getNotes();
 
-        let notesToUpdate = [] as Note[];
-
-        // for each stored note, find the serverSide updated note and compare
-        // them to see if the local one has been modified and not yet reflected
-        // in the BE.
-        DBnotes.forEach(note => {
-          const serverSidNote = fetchedNotes.find(
-            _note => _note._id === note._id,
-          );
-
-          if (
-            serverSidNote &&
-            new Date(serverSidNote.editedAt) > new Date(note.editedAt)
-          ) {
-            notesToUpdate.push(serverSidNote);
-          }
-        });
+        let notesToUpdate = DBnotes.filter(note =>
+          noteShouldBeUpdated(note, fetchedNotes),
+        );
 
         if (notesToUpdate.length > 0) {
           await Database.updateNotes(notesToUpdate);
           updated = true;
         }
 
-        const localNotesIds = DBnotes.map(note => note._id);
-        const newNotes = fetchedNotes.filter(
-          note => !localNotesIds.includes(note._id),
+        const storedNotesIDs = DBnotes.map(note => note._id);
+        const unstoredNotes = fetchedNotes.filter(note =>
+          doesntExistsLocally(note, storedNotesIDs),
         );
 
-        if (newNotes.length > 0) {
-          await Database.createNotes(newNotes);
+        if (unstoredNotes.length > 0) {
+          await Database.createNotes(unstoredNotes);
           updated = true;
         }
       } catch (e: any) {
@@ -303,7 +245,6 @@ export const useNotesLogic = () => {
       }
       try {
         if (updated) {
-          console.log('Updated data');
           await reloadNotes();
         }
       } catch (e: any) {
@@ -311,9 +252,10 @@ export const useNotesLogic = () => {
       }
     };
 
-    updateContent();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    updateContentIfnecessary();
   }, [fetchedNotes]);
+
+  useEffect(() => reloadNotes(), []);
 
   return {
     notes,
