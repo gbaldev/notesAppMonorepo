@@ -1,7 +1,6 @@
 import {useMutation, type UseMutationOptions} from '@tanstack/react-query';
 import Note from '../models/Note';
 import NotesService from '../services/NotesService';
-// import queryClient from '../constants/QueryClient';
 import {NativeModules} from 'react-native';
 
 type UpdatePayload = Note | Note[];
@@ -23,7 +22,6 @@ export const useUpdateNoteMutation = (
         : NotesService.updateNote(data);
     },
     onSuccess: async data => {
-      console.log('Updated', {data});
       Array.isArray(data)
         ? await Database.updateNotes(data)
         : await Database.updateNote(data);

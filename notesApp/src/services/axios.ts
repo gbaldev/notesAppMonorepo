@@ -24,7 +24,6 @@ class AxiosImpl implements HttpRequests {
     this.axiosInstance.interceptors.response.use(
       (response: any) => response,
       (error: any) => {
-        console.log('aver');
         if (error.response && error.response.status === 401) {
           if (this.unauthorizedHandler) {
             console.log({error}, {response: error.response});
