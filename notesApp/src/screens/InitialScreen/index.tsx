@@ -8,7 +8,6 @@ import {
   Image,
   View,
 } from 'react-native';
-import styles from './styles';
 import {User} from 'react-native-auth0';
 import Animated, {
   useAnimatedStyle,
@@ -17,6 +16,8 @@ import Animated, {
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
+import {images} from '@assets';
+import styles from './styles';
 
 interface InitialScreenProps {
   onLogin: () => void;
@@ -64,13 +65,11 @@ const InitialScreen: React.ComponentType<InitialScreenProps> = ({
   }, [isLoading, isLoggedIn, onInit]);
 
   return (
-    <ImageBackground
-      source={require('../../assets/images/bg2.jpg')}
-      style={styles.backgroundImage}>
+    <ImageBackground source={images.appbg} style={styles.backgroundImage}>
       <SafeAreaView style={styles.container}>
         <Animated.View style={animatedStyle}>
           <Image
-            source={require('../../assets/images/n.png')}
+            source={images.nLogo}
             style={styles.logo}
             resizeMode="contain"
           />

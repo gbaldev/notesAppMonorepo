@@ -1,15 +1,11 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import InitialScreen from '../../screens/InitialScreen';
 import {User, useAuth0} from 'react-native-auth0';
-import {StackActions, useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import StackRoutes, {StackRoutesList} from '../../navigation/routes';
-import NotesProvider from '../../services/NotesService/provider';
-import {
-  getSession,
-  isValidToken,
-  setSession,
-} from '../../constants/LocalStorage';
+import {StackActions} from '@react-navigation/native';
+import {useNavigator} from '@hooks';
+import {getSession, isValidToken, setSession} from '@constants';
+import {InitialScreen} from '@screens';
+import StackRoutes from '@navigation/routes';
+import NotesProvider from '@services/NotesService/provider';
 
 interface InitialScreenContainerProps {}
 
@@ -18,8 +14,7 @@ const InitialScreenContainer: React.ComponentType<
 > = () => {
   const {authorize, user, isLoading} = useAuth0();
   const [validUser, setValidUser] = useState<User | null>(null);
-  const navigation =
-    useNavigation<NativeStackNavigationProp<StackRoutesList>>();
+  const navigation = useNavigator();
 
   const onLogin = useCallback(async () => {
     try {

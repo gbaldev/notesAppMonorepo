@@ -1,38 +1,40 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useCallback, useEffect, useMemo} from 'react';
 import {useAuth0} from 'react-native-auth0';
-import {useNotesStore} from '../store/notesStore';
-import useGetNotes from './useGetNotes';
-import useCreateNoteMutation from './useCreateNoteMutation';
-import useDeleteNoteMutation from './useDeleteNoteMutation';
 import {useNetInfo} from '@react-native-community/netinfo';
-import Note from '../models/Note';
+import {UseMutateFunction} from '@tanstack/react-query';
+import {clearSession as clearLocalSession} from '@constants/LocalStorage';
+import {CommonActions} from '@react-navigation/native';
+import {
+  useCreateNoteMutation,
+  useDeleteNoteMutation,
+  useGetNotes,
+  useNavigator,
+  useUpdateNoteMutation,
+} from '@hooks';
+import {useNotesStore} from '@store/notesStore';
+import {Note, NoteStatus} from '@models';
 import {
   selectNoteById,
   selectNotesByPriority,
   selectUnsyncedNotes,
-} from '../store/selectors';
-import NoteStatus from '../models/NoteStatus';
-import {UseMutateFunction} from '@tanstack/react-query';
-import useUpdateNoteMutation from './useUpdateNoteMutation';
-import {clearSession as clearLocalSession} from '../constants/LocalStorage';
-import {CommonActions, useNavigation} from '@react-navigation/native';
-import StackRoutes from '../navigation/routes';
-import Database from '../../DatabaseModule';
+} from '@store/selectors';
 import {
+  Database,
   doesntExistsLocally,
   isModifiedNote,
   isNewNote,
   noteShouldBeUpdated,
   prepareNotesToCreation,
   removeNotes,
-} from '../constants/consts';
+} from '@constants';
+import StackRoutes from '@navigation/routes';
 
-export const useNotesLogic = () => {
+const useNotesLogic = () => {
   const {user, clearSession} = useAuth0();
   const {notes, setNotes} = useNotesStore();
   const {isInternetReachable} = useNetInfo();
-  const navigation = useNavigation();
+  const navigation = useNavigator();
 
   const getNoteById = useCallback((id: string): Note | undefined => {
     return selectNoteById(id)(useNotesStore.getState());
@@ -277,3 +279,5 @@ export const useNotesLogic = () => {
     logout,
   };
 };
+
+export default useNotesLogic;

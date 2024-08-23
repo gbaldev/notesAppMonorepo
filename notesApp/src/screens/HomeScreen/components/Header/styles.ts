@@ -53,4 +53,5 @@ export default StyleSheet.create({
       },
     }),
   },
+  flexGrow: {flexGrow: 1},
 });

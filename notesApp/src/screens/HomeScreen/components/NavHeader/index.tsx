@@ -7,8 +7,9 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import Icon from '../../../../components/Icon';
 import {User} from 'react-native-auth0';
+import {images} from '@assets';
+import {Icon} from '@components';
 import useStyles from './styles';
 
 interface NavHeaderProps {
@@ -20,15 +21,12 @@ const NavHeader: React.ComponentType<NavHeaderProps> = ({user, onLogout}) => {
 
   return (
     <ImageBackground
-      source={require('../../../../assets/images/bg2.jpg')}
+      source={images.appbg}
       style={styles.imageBackground}
       imageStyle={styles.imageBackgroundImage}>
       <SafeAreaView />
       <View style={styles.container}>
-        <Image
-          source={require('../../../../assets/images/n.png')}
-          style={styles.image}
-        />
+        <Image source={images.nLogo} style={styles.image} />
         <Text style={styles.label}>{user?.givenName}</Text>
         <TouchableOpacity onPress={onLogout}>
           <Icon name="logOut" size={35} />

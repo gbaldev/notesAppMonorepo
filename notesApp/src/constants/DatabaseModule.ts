@@ -1,5 +1,5 @@
 import {NativeModules} from 'react-native';
-import Note from './src/models/Note';
+import {Note} from '@models';
 
 type DatabaseType = {
   createNote(noteData: Note): Promise<void>;

@@ -1,5 +1,5 @@
-import Note from '../../models/Note';
-import NotesApi from '../NotesApi';
+import NotesApi from '@services/NotesApi';
+import {Note} from '@models';
 import NotesProvider from './provider';
 
 class NotesService {

@@ -71,4 +71,5 @@ export default StyleSheet.create({
   bottomSeparator: {
     height: 30,
   },
+  priority: {flex: 1, margin: 2, borderRadius: 2},
 });

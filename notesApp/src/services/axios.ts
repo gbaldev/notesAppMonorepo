@@ -1,6 +1,5 @@
 import axios, {AxiosInstance, CancelTokenSource} from 'axios';
-import HttpRequests from '../models/HttpRequest';
-import Note from '../models/Note';
+import {HttpRequests, Note} from '@models';
 
 const GET_DEFAULT_HEADERS = {
   Accept: 'application/json',

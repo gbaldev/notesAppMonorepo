@@ -1,17 +1,15 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {View, Text, TouchableOpacity, ActivityIndicator} from 'react-native';
-import Icon from '../Icon';
-import Note from '../../models/Note';
-import styles from './styles';
-import Separator from '../Separator/Separator';
 import {UseMutateFunction} from '@tanstack/react-query';
-import NoteStatus from '../../models/NoteStatus';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
   withSpring,
 } from 'react-native-reanimated';
+import styles from './styles';
+import {Note, NoteStatus} from '@models';
+import {Icon, Separator} from '@components';
 
 interface NoteCardProps {
   item: Note;

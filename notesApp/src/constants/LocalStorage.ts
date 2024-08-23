@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import NotesProvider from '../services/NotesService/provider';
+import NotesProvider from '@services/NotesService/provider';
 
 const itemKey = {
   TOKEN: 'token',
