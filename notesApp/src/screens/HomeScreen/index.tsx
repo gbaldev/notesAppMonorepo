@@ -130,14 +130,12 @@ const HomeScreen: React.ComponentType<HomeScreenProps> = ({
       />
       <NavHeader user={user} onLogout={onLogout} />
       <View style={styles.container}>
-        <View>
-          <NoConnectionDisclaimer />
-          <Header
-            onAddItem={() => setIsModalVisible(true)}
-            setFilter={setFilter}
-            filter={filter}
-          />
-        </View>
+        <NoConnectionDisclaimer />
+        <Header
+          onAddItem={() => setIsModalVisible(true)}
+          setFilter={setFilter}
+          filter={filter}
+        />
         <FlatList
           scrollEnabled={!noData}
           refreshControl={refreshControlHandler}
