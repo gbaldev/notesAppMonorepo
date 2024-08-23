@@ -1,5 +1,5 @@
 import {QueryClient} from '@tanstack/react-query';
-import NotesProvider from '../services/NotesService/provider';
+import NotesProvider from '@services/NotesService/provider';
 
 const queryClient = new QueryClient({
   defaultOptions: {

@@ -29,7 +29,8 @@ export default StyleSheet.create({
   },
   label: {
     color: 'gray',
-    fontWeight: 400,
+    fontWeight: '400',
   },
   noData: {flexGrow: 1, justifyContent: 'center'},
+  headerContainer: {marginHorizontal: 12},
 });

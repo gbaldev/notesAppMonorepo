@@ -1,22 +1,12 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {
-  View,
-  FlatList,
-  ListRenderItem,
-  RefreshControl,
-  Text,
-} from 'react-native';
+import {View, FlatList, RefreshControl, Text} from 'react-native';
+import {ListRenderItem} from 'react-native/Libraries/Lists/VirtualizedList';
 import {User} from 'react-native-auth0';
-import Note from '../../models/Note';
-import NoteCard from '../../components/NoteCard';
-import Header from './components/Header';
-import styles from './styles';
-import NavHeader from './components/NavHeader';
-import NewNoteModal from './components/NewNoteModal';
 import {UseMutateFunction} from '@tanstack/react-query';
-import NoConnectionDisclaimer from '../../components/NoConnectionDisclaimer';
-import Filter from '../../models/Filter';
-import NoteStatus from '../../models/NoteStatus';
+import {Filter, Note, NoteStatus} from '@models';
+import {NoConnectionDisclaimer, NoteCard} from '@components';
+import {Header, NavHeader, NewNoteModal} from './components';
+import styles from './styles';
 
 interface HomeScreenProps {
   user: User | null;
@@ -140,7 +130,7 @@ const HomeScreen: React.ComponentType<HomeScreenProps> = ({
       />
       <NavHeader user={user} onLogout={onLogout} />
       <View style={styles.container}>
-        <View>
+        <View style={styles.headerContainer}>
           <NoConnectionDisclaimer />
           <Header
             onAddItem={() => setIsModalVisible(true)}

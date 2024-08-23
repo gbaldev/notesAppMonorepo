@@ -1,9 +1,8 @@
 import React, {useCallback, useState} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import Icon from '../Icon';
-import Separator from '../Separator/Separator';
 import styles from './styles';
 import {useNetInfo} from '@react-native-community/netinfo';
+import {Icon, Separator} from '@components';
 
 interface NoConnectionDisclaimerProps {}
 

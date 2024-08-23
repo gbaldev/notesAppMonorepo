@@ -1,3 +1,4 @@
+import 'react-native-reanimated';
 import React from 'react';
 import {Auth0Provider} from 'react-native-auth0';
 import StackNavigator from './src/navigation/stackNavigator';

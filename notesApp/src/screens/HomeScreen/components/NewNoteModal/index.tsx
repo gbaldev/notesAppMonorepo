@@ -6,10 +6,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import styles from './styles';
-import BaseModal from '../../../../components/BaseModal';
-import Note from '../../../../models/Note';
 import {UseMutateFunction} from '@tanstack/react-query';
+import {Priorities, priorities, prioritiesColors} from '@constants';
+import {Note} from '@models';
+import {BaseModal} from '@components';
+import styles from './styles';
 
 interface NewNoteModalProps {
   visible: boolean;
@@ -20,10 +21,6 @@ interface NewNoteModalProps {
   note: Note | null;
   isLoading: boolean;
 }
-
-type Priorities = 'High' | 'Medium' | 'Low';
-const priorities: Priorities[] = ['High', 'Medium', 'Low'];
-const prioritiesColors = ['#ECCDD2', '#AADCCD', '#E5E6E1'];
 
 const NewNoteModal: React.FC<NewNoteModalProps> = ({
   visible,
@@ -135,9 +132,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
                   disabled={isLoading}
                   style={[styles.checkbox]}
                   onPress={() => setPriority(p)}>
-                  <View
-                    style={[{flex: 1, margin: 2, borderRadius: 2}, _style]}
-                  />
+                  <View style={[styles.priority, _style]} />
                 </TouchableOpacity>
                 <Text>{p}</Text>
               </View>

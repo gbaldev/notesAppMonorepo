@@ -1,9 +1,9 @@
 import React from 'react';
 import {Text, TouchableOpacity, ImageBackground, View} from 'react-native';
-import Icon from '../../../../components/Icon';
+import {images} from '@assets';
+import {Filter} from '@models';
+import {Icon, Separator} from '@components';
 import styles from './styles';
-import Separator from '../../../../components/Separator/Separator';
-import Filter from '../../../../models/Filter';
 
 interface HeaderProps {
   onAddItem: () => void;
@@ -17,11 +17,11 @@ const Header: React.ComponentType<HeaderProps> = ({
   setFilter,
 }) => (
   <ImageBackground
-    source={require('../../../../assets/images/bg2.jpg')}
+    source={images.appbg}
     imageStyle={styles.image}
     style={styles.container}>
     <View style={styles.innerContainer}>
-      <View style={[{flexGrow: 1}]}>
+      <View style={styles.flexGrow}>
         <Text style={styles.label}>My Notes</Text>
         <View style={styles.filters}>
           <TouchableOpacity

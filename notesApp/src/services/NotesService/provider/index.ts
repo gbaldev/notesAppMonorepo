@@ -1,8 +1,8 @@
 import React from 'react';
-import AxiosImpl from '../../axios';
 import {CommonActions} from '@react-navigation/native';
-import StackRoutes from '../../../navigation/routes';
-import {clearSession} from '../../../constants/LocalStorage';
+import {clearSession} from '@constants';
+import AxiosImpl from '@services/axios';
+import StackRoutes from '@navigation/routes';
 
 const NotesProvider = new AxiosImpl();
 

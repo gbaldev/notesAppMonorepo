@@ -1,7 +1,7 @@
 import {useMutation, type UseMutationOptions} from '@tanstack/react-query';
-import Note from '../models/Note';
-import NotesService from '../services/NotesService';
-import Database from '../../DatabaseModule';
+import {Database} from '@constants';
+import {Note} from '@models';
+import NotesService from '@services/NotesService';
 
 export const useCreateNoteMutation = (
   options?: Omit<

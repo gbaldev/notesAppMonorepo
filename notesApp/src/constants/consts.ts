@@ -1,5 +1,5 @@
-import Database from '../../DatabaseModule';
-import Note from '../models/Note';
+import {Note} from 'models';
+import {Database} from './';
 
 export const LOCAL_ID = 'LocalId';
 
@@ -28,3 +28,7 @@ export const noteShouldBeUpdated = (note: Note, fetchedNotes: Note[]) => {
 
 export const doesntExistsLocally = (note: Note, storedNotesIDs: String[]) =>
   !storedNotesIDs.includes(note._id);
+
+export type Priorities = 'High' | 'Medium' | 'Low';
+export const priorities: Priorities[] = ['High', 'Medium', 'Low'];
+export const prioritiesColors = ['#ECCDD2', '#AADCCD', '#E5E6E1'];

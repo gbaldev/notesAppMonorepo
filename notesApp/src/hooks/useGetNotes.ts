@@ -1,7 +1,7 @@
 import {UseQueryOptions, useQuery} from '@tanstack/react-query';
-import Note from '../models/Note';
-import NotesService from '../services/NotesService';
 import {useNetInfo} from '@react-native-community/netinfo';
+import {Note} from '@models';
+import NotesService from '@services/NotesService';
 
 export const useGetNotes = (
   options?: Omit<

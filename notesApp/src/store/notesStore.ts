@@ -1,5 +1,5 @@
+import {Note} from '@models';
 import {create} from 'zustand';
-import Note from '../models/Note';
 
 export interface NotesState {
   notes: Note[];

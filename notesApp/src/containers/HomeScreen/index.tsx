@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
-import {useNotesLogic} from '../../hooks/useNotesLogic';
-import HomeScreen from '../../screens/HomeScreen';
 import {useNetInfo} from '@react-native-community/netinfo';
+import {useNotesLogic} from '@hooks';
+import {HomeScreen} from '@screens';
 
 interface HomeScreenContainerProps {}
 
