@@ -59,6 +59,7 @@ export default StyleSheet.create({
     padding: 7,
     borderRadius: 5,
     borderColor: 'gray',
+    textAlignVertical: 'top',
   },
   separator: {height: 15},
   titleSeparator: {height: 5},

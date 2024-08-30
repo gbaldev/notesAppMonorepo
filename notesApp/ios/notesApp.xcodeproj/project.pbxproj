@@ -11,14 +11,14 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		4B707CCB5D3061E9FBA8092B /* libPods-notesApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92C4F900BF2F2B4DAD8A8898 /* libPods-notesApp.a */; };
+		1BE6F0889502BEBB342B62EF /* Pods_notesApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB09288537FAC94757355E8 /* Pods_notesApp.framework */; };
 		64AC494D93D7771BE1E2366D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 1A52A8BB61309E0951E5C1AB /* PrivacyInfo.xcprivacy */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		9E63AED22C7053670023B818 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E63AED12C7053670023B818 /* DatabaseManager.swift */; };
 		9E63AED82C7057540023B818 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E63AED72C7057540023B818 /* Database.swift */; };
 		9E63AEDA2C7057880023B818 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E63AED92C7057880023B818 /* Note.swift */; };
 		9E63AEDC2C7057B50023B818 /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E63AEDB2C7057B40023B818 /* Database.m */; };
-		BC551AB2D21202920503B6B7 /* libPods-notesApp-notesAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 05C04AEDB480975FF3B20AE0 /* libPods-notesApp-notesAppTests.a */; };
+		EC7DEB54B27AC5CDE9869BEA /* Pods_notesApp_notesAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 731D890D9FEE26499BDBA95F /* Pods_notesApp_notesAppTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,7 +35,6 @@
 		00E356EE1AD99517003FC87E /* notesAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = notesAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* notesAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = notesAppTests.m; sourceTree = "<group>"; };
-		05C04AEDB480975FF3B20AE0 /* libPods-notesApp-notesAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-notesApp-notesAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* notesApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = notesApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = notesApp/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = notesApp/AppDelegate.mm; sourceTree = "<group>"; };
@@ -45,9 +44,9 @@
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = notesApp/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		1A52A8BB61309E0951E5C1AB /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = notesApp/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		5C127F542CC538C999E8E10A /* Pods-notesApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notesApp.debug.xcconfig"; path = "Target Support Files/Pods-notesApp/Pods-notesApp.debug.xcconfig"; sourceTree = "<group>"; };
+		731D890D9FEE26499BDBA95F /* Pods_notesApp_notesAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_notesApp_notesAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7973B10343EA987A6E9956EB /* Pods-notesApp-notesAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notesApp-notesAppTests.release.xcconfig"; path = "Target Support Files/Pods-notesApp-notesAppTests/Pods-notesApp-notesAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = notesApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		92C4F900BF2F2B4DAD8A8898 /* libPods-notesApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-notesApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E63AECE2C7053170023B818 /* notesApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "notesApp-Bridging-Header.h"; sourceTree = "<group>"; };
 		9E63AED12C7053670023B818 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		9E63AED72C7057540023B818 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
@@ -56,6 +55,7 @@
 		D0CC1DDFB6D681BCF8B8D8F9 /* Pods-notesApp-notesAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notesApp-notesAppTests.debug.xcconfig"; path = "Target Support Files/Pods-notesApp-notesAppTests/Pods-notesApp-notesAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E14FE909EE4A15E8DEFB8109 /* Pods-notesApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notesApp.release.xcconfig"; path = "Target Support Files/Pods-notesApp/Pods-notesApp.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		EEB09288537FAC94757355E8 /* Pods_notesApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_notesApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,7 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC551AB2D21202920503B6B7 /* libPods-notesApp-notesAppTests.a in Frameworks */,
+				EC7DEB54B27AC5CDE9869BEA /* Pods_notesApp_notesAppTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,7 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4B707CCB5D3061E9FBA8092B /* libPods-notesApp.a in Frameworks */,
+				1BE6F0889502BEBB342B62EF /* Pods_notesApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,8 +114,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				92C4F900BF2F2B4DAD8A8898 /* libPods-notesApp.a */,
-				05C04AEDB480975FF3B20AE0 /* libPods-notesApp-notesAppTests.a */,
+				EEB09288537FAC94757355E8 /* Pods_notesApp.framework */,
+				731D890D9FEE26499BDBA95F /* Pods_notesApp_notesAppTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -549,7 +549,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CC = "";
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -634,6 +634,7 @@
 				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
 				USE_HERMES = true;
 			};
 			name = Debug;
@@ -644,7 +645,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CC = "";
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;

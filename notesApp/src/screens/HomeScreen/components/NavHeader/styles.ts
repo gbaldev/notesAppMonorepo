@@ -1,11 +1,11 @@
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const useStyles = () => {
   const insets = useSafeAreaInsets();
   return StyleSheet.create({
     imageBackground: {
-      paddingTop: 110,
+      paddingTop: Platform.select({android: 72, ios: insets.top * 2}),
     },
     imageBackgroundImage: {
       borderBottomRightRadius: 20,
@@ -18,7 +18,7 @@ const useStyles = () => {
       paddingHorizontal: 16,
       alignItems: 'center',
       flexDirection: 'row',
-      top: insets.top,
+      top: Platform.select({android: 20, ios: insets.top}),
       borderBottomRightRadius: 25,
       borderBottomLeftRadius: 25,
     },

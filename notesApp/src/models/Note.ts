@@ -3,8 +3,8 @@ import NoteStatus from './NoteStatus';
 interface Note {
   title: string;
   content: string;
-  createdAt: Date;
-  editedAt: Date;
+  createdAt: string;
+  editedAt: string;
   userId?: string;
   priority: string;
   isSynced?: boolean;

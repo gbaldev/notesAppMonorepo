@@ -143,6 +143,7 @@ class DatabaseManager {
         try self.realm?.write {
           note.status = NoteStatus.DELETED.rawValue
           note.isSynced = isSynced ?? true
+          note.editedAt = Date()
         }
       } catch {
         print("Error deleting note: \(error)")

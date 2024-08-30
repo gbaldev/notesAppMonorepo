@@ -90,10 +90,11 @@ const useNotesLogic = () => {
 
   const createUnsyncedNote = useCallback(
     async (note: Note, {onSuccess}: {onSuccess: () => void}) => {
+      const createdAt = new Date().toISOString();
       await Database.createNote({
         ...note,
-        createdAt: new Date(),
-        editedAt: new Date(),
+        createdAt,
+        editedAt: createdAt,
         isSynced: false,
         status: NoteStatus.ACTIVE,
       });
@@ -148,7 +149,10 @@ const useNotesLogic = () => {
     async (noteId: string, {onSuccess}: {onSuccess: () => void}) => {
       const noteToDelete = notes.find(n => n._id === noteId);
       if (noteToDelete) {
-        await Database.deleteNote({...noteToDelete, isSynced: false});
+        await Database.deleteNote({
+          ...noteToDelete,
+          isSynced: false,
+        });
       }
       onSuccess();
     },
@@ -253,7 +257,15 @@ const useNotesLogic = () => {
       }
     };
 
-    updateContentIfnecessary();
+    let timeout = setTimeout(() => {
+      updateContentIfnecessary();
+    }, 1000);
+
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+    };
   }, [fetchedNotes]);
 
   useEffect(() => reloadNotes(), []);
