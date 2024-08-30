@@ -110,7 +110,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
         <Text style={styles.sectionTitle}>Content</Text>
         <TextInput
           style={styles.input}
-          numberOfLines={5}
+          numberOfLines={2}
           multiline
           onChangeText={setContent}
           editable={!isLoading}

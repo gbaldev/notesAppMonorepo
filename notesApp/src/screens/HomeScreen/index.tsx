@@ -1,6 +1,11 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {View, FlatList, RefreshControl, Text} from 'react-native';
-import {ListRenderItem} from 'react-native/Libraries/Lists/VirtualizedList';
+import {
+  View,
+  FlatList,
+  RefreshControl,
+  Text,
+  ListRenderItem,
+} from 'react-native';
 import {User} from 'react-native-auth0';
 import {UseMutateFunction} from '@tanstack/react-query';
 import {Filter, Note, NoteStatus} from '@models';
@@ -99,21 +104,27 @@ const HomeScreen: React.ComponentType<HomeScreenProps> = ({
       switch (filter) {
         case Filter.DELETED:
           filtered = notes.filter(note => note.status === NoteStatus.DELETED);
-          setFilteredNotes(filtered);
+          // setFilteredNotes(filtered);
           break;
         case Filter.UNSYNCED:
           filtered = notes.filter(note => !note.isSynced);
-          setFilteredNotes(filtered);
+          // setFilteredNotes(filtered);
           break;
         case Filter.ALL:
           setFilteredNotes(null);
-          break;
+          return;
         case Filter.ACTIVE:
         default:
           filtered = notes.filter(note => note.status === NoteStatus.ACTIVE);
-          setFilteredNotes(filtered);
+          // setFilteredNotes(filtered);
           break;
       }
+      setFilteredNotes(
+        filtered.sort(
+          (a, b) =>
+            new Date(b.editedAt).getTime() - new Date(a.editedAt).getTime(),
+        ),
+      );
     }
   }, [filter, notes]);
 

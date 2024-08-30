@@ -10,6 +10,7 @@ import Animated, {
 import styles from './styles';
 import {Note, NoteStatus} from '@models';
 import {Icon, Separator} from '@components';
+import {DateTime} from 'luxon';
 
 interface NoteCardProps {
   item: Note;
@@ -23,7 +24,9 @@ const NoteCard: React.ComponentType<NoteCardProps> = ({
   reloadNotes,
   onEdit,
 }) => {
-  const lastModifiedDate = new Date(item.editedAt).toLocaleDateString();
+  const lastModifiedDate = DateTime.fromISO(item.editedAt).toFormat(
+    'MM/dd/yyyy, h:mm:ss a',
+  );
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const onDelete = useCallback(() => {
     setIsDeleting(true);

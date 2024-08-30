@@ -4,7 +4,7 @@ export default StyleSheet.create({
   container: {
     padding: 16,
     borderRadius: 25,
-    margin: 10,
+    marginVertical: 10,
     ...Platform.select({
       ios: {
         shadowColor: '#2f0000',
