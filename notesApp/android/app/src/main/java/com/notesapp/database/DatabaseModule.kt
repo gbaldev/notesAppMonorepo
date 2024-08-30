@@ -24,8 +24,8 @@ import java.io.Serializable
 
 class DatabaseModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
 
-    private val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US).apply {
-        var timeZone = TimeZone.getTimeZone("UTC")
+    private val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault()).apply {
+        timeZone = TimeZone.getDefault()
     }
 
     override fun getName() = "Database"
