@@ -104,11 +104,9 @@ const HomeScreen: React.ComponentType<HomeScreenProps> = ({
       switch (filter) {
         case Filter.DELETED:
           filtered = notes.filter(note => note.status === NoteStatus.DELETED);
-          // setFilteredNotes(filtered);
           break;
         case Filter.UNSYNCED:
           filtered = notes.filter(note => !note.isSynced);
-          // setFilteredNotes(filtered);
           break;
         case Filter.ALL:
           setFilteredNotes(null);
@@ -116,7 +114,6 @@ const HomeScreen: React.ComponentType<HomeScreenProps> = ({
         case Filter.ACTIVE:
         default:
           filtered = notes.filter(note => note.status === NoteStatus.ACTIVE);
-          // setFilteredNotes(filtered);
           break;
       }
       setFilteredNotes(

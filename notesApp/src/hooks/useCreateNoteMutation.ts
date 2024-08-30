@@ -17,7 +17,6 @@ export const useCreateNoteMutation = (
         ? NotesService.createNotes(data)
         : NotesService.createNote(data),
     onSuccess: async data => {
-      console.log(data);
       Array.isArray(data)
         ? await Database.createNotes(data)
         : await Database.createNote(data);

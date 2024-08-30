@@ -185,8 +185,6 @@ const useNotesLogic = () => {
     let createPromise = Promise.resolve(null);
     let updatePromise = Promise.resolve(null);
 
-    console.log(modifiedNotes);
-    console.log(pendingNotes);
     if (pendingNotes.length > 0) {
       createPromise = new Promise((resolve, reject) => {
         createNoteMutation(pendingNotes, {

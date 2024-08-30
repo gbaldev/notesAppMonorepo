@@ -12,5 +12,4 @@ type DatabaseType = {
   updateNotes(notesData: Note[]): Promise<void>;
 };
 
-// check here for platform
 export default NativeModules.Database as DatabaseType;

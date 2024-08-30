@@ -97,9 +97,7 @@ class AxiosImpl implements HttpRequests {
     return _data;
   };
 
-  patch = async () => {
-    // TO-DO patch implementation
-  };
+  patch = async () => {};
 }
 
 export default AxiosImpl;

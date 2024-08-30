@@ -85,13 +85,11 @@ android {
         versionName "1.0"
         manifestPlaceholders = [auth0Domain: "dev-zlbc32xylykj6yh1.us.auth0.com", auth0Scheme: "${applicationId}.auth0"]
 
-        // Configuración de compatibilidad de Java
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_17
             targetCompatibility JavaVersion.VERSION_17
         }
 
-        // Configuración de Kotlin para que use la misma versión de JVM
         kotlinOptions {
             jvmTarget = "17"
         }
