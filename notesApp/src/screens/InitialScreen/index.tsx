@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {
   SafeAreaView,
   TouchableOpacity,
@@ -64,6 +64,14 @@ const InitialScreen: React.ComponentType<InitialScreenProps> = ({
     return () => clearTimeout(timeout);
   }, [isLoading, isLoggedIn, onInit]);
 
+  const userName = useMemo(
+    () =>
+      user && user.givenName && user.givenName.length > 0
+        ? `, ${user?.givenName}`
+        : '',
+    [user],
+  );
+
   return (
     <ImageBackground source={images.appbg} style={styles.backgroundImage}>
       <SafeAreaView style={styles.container}>
@@ -88,7 +96,7 @@ const InitialScreen: React.ComponentType<InitialScreenProps> = ({
               </>
             ) : (
               <Text style={[styles.welcomeLabel]}>
-                {`Nice to see you again${', ' + user.givenName}!`}
+                {`Nice to see you again${userName}!`}
               </Text>
             )}
           </View>

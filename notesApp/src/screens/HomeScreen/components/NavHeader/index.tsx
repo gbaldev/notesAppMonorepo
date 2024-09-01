@@ -27,7 +27,9 @@ const NavHeader: React.ComponentType<NavHeaderProps> = ({user, onLogout}) => {
       <SafeAreaView />
       <View style={styles.container}>
         <Image source={images.nLogo} style={styles.image} />
-        <Text style={styles.label}>{user?.givenName}</Text>
+        <Text style={styles.label}>
+          {user?.givenName ?? 'Happy Note-Taking!'}
+        </Text>
         <TouchableOpacity onPress={onLogout}>
           <Icon name="logOut" size={35} />
         </TouchableOpacity>
