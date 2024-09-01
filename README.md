@@ -119,3 +119,8 @@ This monorepo contains a full-featured note-taking application designed as a por
 This project showcases various aspects of mobile and backend development, focusing on a robust and seamless offline-first experience. It is designed to highlight skills in React Native, native module development, backend services with Node.js and MongoDB, and state management in complex applications.
 
 Feel free to explore the code.
+
+### Sistem diagram
+![Notes app](https://github.com/user-attachments/assets/83ea8add-95cd-43d0-ab12-8392f1361dd7)
+
+
