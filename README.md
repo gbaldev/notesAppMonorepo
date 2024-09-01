@@ -121,6 +121,7 @@ This project showcases various aspects of mobile and backend development, focusi
 Feel free to explore the code.
 
 ### Sistem diagram
-![Notes app](https://github.com/user-attachments/assets/83ea8add-95cd-43d0-ab12-8392f1361dd7)
+![Notes app (1)](https://github.com/user-attachments/assets/56874501-28b0-457e-bc08-4b35816e7bdf)
+
 
 
