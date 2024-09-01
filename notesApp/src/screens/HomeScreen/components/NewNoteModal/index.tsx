@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {
   ActivityIndicator,
   Text,
@@ -15,6 +15,7 @@ import {
   errorToast,
   updateSuccessToast,
 } from '@constants/Toasts';
+import colors from '@constants/colors';
 import styles from './styles';
 
 interface NewNoteModalProps {
@@ -39,6 +40,10 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
   const [priority, setPriority] = useState<Priorities>(priorities[2]);
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
+  const canSave = useMemo(
+    () => title.length > 0 && content.length > 0,
+    [title, content],
+  );
 
   const handleOnClose = useCallback(() => {
     setPriority(priorities[2]);
@@ -157,9 +162,12 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
         <View style={styles.bottomSeparator} />
         <View style={styles.actionsContainer}>
           <TouchableOpacity
-            style={styles.addButton}
+            style={[
+              styles.addButton,
+              !canSave && {backgroundColor: colors.gray},
+            ]}
             onPress={onSubmit}
-            disabled={isLoading}>
+            disabled={isLoading || !canSave}>
             {isLoading ? (
               <ActivityIndicator size={12} />
             ) : (
