@@ -13,4 +13,6 @@ export default {
   orange: '#fc9502',
   softGray: '#959595',
   softBlue: '#02a1fc',
+  black: 'black',
+  white01: 'rgba(255,255,255,0.1)',
 };

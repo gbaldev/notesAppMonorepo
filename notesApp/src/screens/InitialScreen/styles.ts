@@ -1,4 +1,5 @@
 import {Dimensions, StyleSheet} from 'react-native';
+import colors from '@constants/colors';
 
 export default StyleSheet.create({
   container: {
@@ -18,18 +19,18 @@ export default StyleSheet.create({
     margin: 16,
     paddingHorizontal: 16,
     borderWidth: 1,
-    borderColor: 'gray',
-    backgroundColor: 'RGBA(255,255,255,0.1)',
+    borderColor: colors.gray,
+    backgroundColor: colors.white01,
     borderRadius: 25,
     height: 50,
     width: '90%',
-    color: 'white',
+    color: colors.white,
   },
   labelView: {
     position: 'absolute',
     height: '100%',
     width: 150,
-    borderColor: 'black',
+    borderColor: colors.black,
     borderWidth: 2,
     borderRadius: 25,
     justifyContent: 'center',
@@ -40,6 +41,7 @@ export default StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     zIndex: 1,
+    color: colors.black,
   },
   welcomeLabel: {
     fontSize: 20,
@@ -52,7 +54,7 @@ export default StyleSheet.create({
     borderRadius: 25,
     height: 50,
     zIndex: 0,
-    backgroundColor: 'white',
+    backgroundColor: colors.white,
     opacity: 0.3,
     width: 150,
     justifyContent: 'center',
