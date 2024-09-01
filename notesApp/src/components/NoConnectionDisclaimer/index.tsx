@@ -33,7 +33,7 @@ const NoConnectionDisclaimer: React.ComponentType<
           <Separator height={5} />
           <Text style={styles.disclaimerLabel}>
             You are running on the offline mode, unsynced data {<TextIcon />}{' '}
-            will be synced once you get normal conection again.
+            will be synced once you have a stable connection again.
           </Text>
         </View>
       );
