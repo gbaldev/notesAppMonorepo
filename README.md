@@ -1,6 +1,6 @@
 # NotesApp Monorepo
 
-This monorepo contains a full-featured note-taking application designed as a portfolio project. The solution includes a Node.js server with MongoDB and a React Native app with native modules for Android and iOS. These modules are used to implement persistent storage for the data served by the backend.
+This monorepo contains a full-featured note-taking application designed as example project. The solution includes a Node.js server with MongoDB and a React Native app with native modules for Android and iOS. These modules are used to implement persistent storage for the data served by the backend.
 
 ## Features
 
