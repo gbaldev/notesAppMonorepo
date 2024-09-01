@@ -1,130 +1,159 @@
-# NotesApp Monorepo
+# Offline-First Notes Application
 
-This monorepo contains a full-featured note-taking application designed as example project. The solution includes a Node.js server with MongoDB and a React Native app with native modules for Android and iOS. These modules are used to implement persistent storage for the data served by the backend.
+This monorepo contains a full-stack application for creating and managing notes with offline-first functionality. It consists of a Node.js backend with MongoDB (in the `notes-server` directory) and a React Native mobile app (in the `notesApp` directory) with native modules for Android and iOS.
 
-## Features
+## Table of Contents
+- [Project Overview](#project-overview)
+- [Technologies Used](#technologies-used)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Backend Setup](#backend-setup)
+  - [Mobile App Setup](#mobile-app-setup)
+- [Architecture](#architecture)
+- [Features](#features)
+- [System Diagram](#system-diagram)
+- [Application Workflow](#application-workflow)
 
-- **Authentication**: The app uses Auth0 for authentication, ensuring that notes are unique to each user in the backend.
-- **Token Management**: JWT tokens are used to secure API calls, ensuring that only authenticated users can perform operations.
-- **Offline-First Model**: The app is designed to work fully offline. When offline, data is stored locally and marked as unsynced. Once the connection is restored, the data is automatically synced with the backend.
-- **Backend**: The backend uses MongoDB with Mongoose for database operations.
-- **State Management**: The app uses Zustand for internal state management in React Native.
-- **Animations**: Reanimated is used to enhance performance and deliver smooth animations.
+## Project Overview
 
-## Technologies
+This application demonstrates a modern approach to building a full-stack, offline-first mobile app. It showcases various technologies and practices, including:
 
-- **Backend**:
-  - Node.js
-  - MongoDB with Mongoose
-- **Frontend**:
-  - React Native
-  - Axios + TanStack Query for data fetching
-  - Zustand for state management
-  - Reanimated for animations
-- **Native Modules**:
-  - Realm for persistent data storage on both Android and iOS
+- Backend: Node.js with MongoDB
+- Frontend: React Native with native modules
+- Authentication: Auth0
+- State Management: Zustand
+- API Communication: Axios with TanStack Query
+- Offline Data Sync: Custom implementation with Realm
+- Animations: React Native Reanimated
 
-## Installation and Setup
+The app allows users to create, read, update, and delete notes, with all operations available offline and data syncing when a connection is reestablished.
 
-### Backend
+## Technologies Used
 
-#### macOS
+### Backend (notes-server)
+- Node.js
+- MongoDB with Mongoose
+- JWT for token handling
 
-1. **Install MongoDB**:
-   ```bash
-   brew tap mongodb/brew
-   brew install mongodb-community@5.0
+### Mobile App (notesApp)
+- React Native
+- Native Modules (Android & iOS)
+- Realm for local data storage
+- Auth0 for authentication
+- Axios for API requests
+- TanStack Query for data fetching and caching
+- Zustand for state management
+- React Native Reanimated for animations
 
-2. **Start MongoDB:**:
-    ```bash
-    brew services start mongodb-community
-    ```
+## Getting Started
 
-3. **Navigate to the backend directory**:
-    ```bash
-    cd backend
-    ```
+### Prerequisites
 
-4. **Install dependencies**:
-    ```bash
-    npm install
-    ```
-    
-5. **Start the server**:
-  ```bash
-  npm run start
-  ```
+- Node.js (v14 or later)
+- npm or yarn
+- MongoDB
+- Xcode (for iOS development)
+- Android Studio (for Android development)
+- CocoaPods (for iOS dependencies)
 
-#### Windows
+### Backend Setup
 
-1. **Install MongoDB**:
-   - Download and install MongoDB from the official website: [MongoDB Download Center](https://www.mongodb.com/try/download/community)
-
-2. **Start MongoDB**:
-   - Use the MongoDB Compass or run `mongod` in your terminal to start the MongoDB server.
-
-3. **Navigate to the backend directory**:
-   ```bash
+1. Navigate to the backend directory:
+   ```
    cd notes-server
    ```
 
-4. **Install dependencies**:
-  ```bash
-  npm install
-  ```
+2. Install dependencies:
+   ```
+   npm install
+   ```
 
-5. **Start the server**:
-  ```bash
-  npm run start
-  ```
+3. Start MongoDB:
+   - On macOS:
+     ```
+     brew services start mongodb-community
+     ```
+   - On Windows:
+     - Open the Start menu and search for "MongoDB"
+     - Run MongoDB Compass or MongoDB Shell
+     - Alternatively, you can start MongoDB as a service:
+       1. Open Command Prompt as Administrator
+       2. Run: `net start MongoDB`
 
-### React Native App
+4. Start the server:
+   ```
+   npm run start
+   ```
 
-1. **Navigate to the app directory**:
-   ```bash
+The server should now be running on `http://localhost:3000` (or your configured port).
+
+### Mobile App Setup
+
+1. Navigate to the mobile app directory:
+   ```
    cd notesApp
    ```
 
-2. **Install dependencies**:
-  ```bash
-  npm install
-  ```
+2. Install dependencies:
+   ```
+   npm install
+   ```
 
-3. **iOS Setup**:
-  ```bash
-  cd ios
-  pod install
-  cd ..
-  ```
+3. Install iOS dependencies (macOS only):
+   ```
+   cd ios && pod install && cd ..
+   ```
 
-4. **Start the React Native bundler**:
-  ```bash
-  npm start
-  ```
+4. Start the Metro bundler:
+   ```
+   npm start
+   ```
 
-5. **Run the app**:
-  * For Android:
-  ```bash
-  npm run android
-  ```
+5. Run the app:
+   - For iOS (macOS only):
+     ```
+     npm run ios
+     ```
+   - For Android:
+     ```
+     npm run android
+     ```
 
-  * For iOS:
-  ```bash
-  npm run ios
-  ```
+Alternatively, you can open the project in Xcode (for iOS) or Android Studio (for Android) and run it from there.
 
-  Alternatively, you can run the app directly from Android Studio or Xcode.
+## Architecture
 
-### Additional Notes
-This project showcases various aspects of mobile and backend development, focusing on a robust and seamless offline-first experience. It is designed to highlight skills in React Native, native module development, backend services with Node.js and MongoDB, and state management in complex applications.
+The application follows a client-server architecture with offline-first capabilities:
 
-Feel free to explore the code.
+1. **Backend (notes-server)**: A Node.js server with MongoDB handles data storage and API endpoints. It uses Mongoose for database modeling and JWT for secure communication.
 
-### System diagram
+2. **Mobile App (notesApp)**: A React Native app with native modules for Android and iOS. It uses Realm for local data storage, enabling offline functionality.
+
+3. **Authentication**: Auth0 is used for user authentication, ensuring secure access to the app and backend.
+
+4. **API Communication**: Axios is used for making HTTP requests, while TanStack Query handles data fetching, caching, and synchronization.
+
+5. **Offline-First**: The app implements an offline-first approach, allowing all operations to be performed without an internet connection. Data is synced with the backend when connectivity is restored.
+
+6. **State Management**: Zustand is used for managing the app's internal state, providing a simple and efficient solution.
+
+7. **Animations**: React Native Reanimated is utilized for high-performance animations, enhancing the user experience.
+
+## Features
+
+- User authentication with Auth0
+- Create, read, update, and delete notes
+- Offline-first functionality
+- Data synchronization when online
+- Smooth animations for improved UX
+- Cross-platform support (iOS and Android)
+
+## System Diagram
+
 ![Notes app (1)](https://github.com/user-attachments/assets/56874501-28b0-457e-bc08-4b35816e7bdf)
 
-### Workflow
-_For a complete experience, you can build the application on your own or view the videos linked below, which showcase the application on both platforms. Note that while the images provided are from the iOS version, the design is consistent across both platforms._
+## Application Workflow
+
 <img src="https://github.com/user-attachments/assets/fcc711b9-f1c0-4ec3-95e1-48e378311927" alt="Imagen 1" width="250" />
 <img src="https://github.com/user-attachments/assets/6b89e1dd-0a9b-4b3b-ae72-4452a8190904" alt="Imagen 2" width="250" />
 <img src="https://github.com/user-attachments/assets/4a37e330-386e-44cc-bd14-2175c7791948" alt="Imagen 3" width="250" />
