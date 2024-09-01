@@ -123,5 +123,25 @@ Feel free to explore the code.
 ### System diagram
 ![Notes app (1)](https://github.com/user-attachments/assets/56874501-28b0-457e-bc08-4b35816e7bdf)
 
+### iOS workflow
 
-
+<img src="https://github.com/user-attachments/assets/fcc711b9-f1c0-4ec3-95e1-48e378311927" alt="Imagen 1" width="300" />
+<img src="https://github.com/user-attachments/assets/6b89e1dd-0a9b-4b3b-ae72-4452a8190904" alt="Imagen 2" width="300" />
+<img src="https://github.com/user-attachments/assets/4a37e330-386e-44cc-bd14-2175c7791948" alt="Imagen 3" width="300" />
+<img src="https://github.com/user-attachments/assets/6e7e02b5-bd93-4371-8f33-3f3695a17e84" alt="Imagen 4" width="300" />
+<img src="https://github.com/user-attachments/assets/15efed8a-76b9-4fdf-863b-d8d83cd801ef" alt="Imagen 5" width="300" />
+<img src="https://github.com/user-attachments/assets/88f15e12-d4b8-46c1-a333-c7f9768019db" alt="Imagen 6" width="300" />
+<img src="https://github.com/user-attachments/assets/9d151d68-3f0c-46fb-990e-cd651005c9e8" alt="Imagen 7" width="300" />
+<img src="https://github.com/user-attachments/assets/23049050-4479-4d5e-9024-2d218be70b7e" alt="Imagen 8" width="300" />
+<img src="https://github.com/user-attachments/assets/c694ffd8-36c8-4cb0-ab70-37082d007a82" alt="Imagen 9" width="300" />
+<img src="https://github.com/user-attachments/assets/589b2c55-eb64-4d6e-9f53-1b2254668542" alt="Imagen 1" width="300" />
+<img src="https://github.com/user-attachments/assets/1b2bd1a1-db6d-4d6f-be3b-605dbcfe557c" alt="Imagen 2" width="300" />
+<img src="https://github.com/user-attachments/assets/5c002a4c-b705-41c6-9569-b5806ca36675" alt="Imagen 3" width="300" />
+<img src="https://github.com/user-attachments/assets/467c6fcf-0c1a-4044-b3b6-cc70b7145a1d" alt="Imagen 4" width="300" />
+<img src="https://github.com/user-attachments/assets/e6eefef9-5d8b-43e9-b618-88816aed61dd" alt="Imagen 5" width="300" />
+<img src="https://github.com/user-attachments/assets/8b59d36c-e79a-46ca-beb1-8422546b4941" alt="Imagen 6" width="300" />
+<img src="https://github.com/user-attachments/assets/95818e53-56ea-41c6-99cd-b6a231fd22d7" alt="Imagen 7" width="300" />
+<img src="https://github.com/user-attachments/assets/aa15f669-4253-4756-ade7-45f278e75ca5" alt="Imagen 8" width="300" />
+<img src="https://github.com/user-attachments/assets/2c761331-91c3-4448-abf2-1167345af0a8" alt="Imagen 9" width="300" />
+<img src="https://github.com/user-attachments/assets/679f1908-1f3e-4940-80e0-c054e448041d" alt="Imagen 10" width="300" />
+<img src="https://github.com/user-attachments/assets/e768bd98-a5e4-42ad-9704-2fc2ac93dc12" alt="Imagen 11" width="300" />
