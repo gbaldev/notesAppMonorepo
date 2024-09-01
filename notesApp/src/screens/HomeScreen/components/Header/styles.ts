@@ -70,4 +70,5 @@ export default StyleSheet.create({
     borderRadius: 100,
     backgroundColor: colors.toastRed,
   },
+  row: {flexDirection: 'row'},
 });

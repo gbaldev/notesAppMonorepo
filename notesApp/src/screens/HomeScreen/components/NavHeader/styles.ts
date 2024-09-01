@@ -29,6 +29,7 @@ const useStyles = () => {
       fontWeight: '200',
       fontSize: 26,
     },
+    noUserName: {fontSize: 22},
   });
 };
 

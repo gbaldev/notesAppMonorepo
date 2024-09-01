@@ -50,7 +50,7 @@ const Header: React.ComponentType<HeaderProps> = ({
             <Text style={[styles.filterLabel]}>{Filter.ALL}</Text>
           </TouchableOpacity>
           <Separator width={10} />
-          <View style={{flexDirection: 'row'}}>
+          <View style={styles.row}>
             <TouchableOpacity
               style={filter === Filter.UNSYNCED && styles.underlined}
               onPress={() => {
