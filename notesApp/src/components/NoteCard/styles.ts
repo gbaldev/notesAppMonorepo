@@ -1,15 +1,16 @@
 import {Platform, StyleProp, StyleSheet} from 'react-native';
+import colors from '@constants/colors';
 
 export default StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: colors.white,
     flexGrow: 1,
     padding: 16,
     margin: 10,
     borderRadius: 20,
     ...Platform.select({
       ios: {
-        shadowColor: '#000',
+        shadowColor: colors.shadowColor,
         shadowOffset: {width: 0, height: 5},
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
@@ -34,39 +35,39 @@ export default StyleSheet.create({
     flexShrink: 1,
   },
   headerhigh: {
-    borderBottomColor: '#fc9502',
+    borderBottomColor: colors.orange,
   },
   headerlow: {
-    borderBottomColor: '#959595',
+    borderBottomColor: colors.softGray,
   },
   headermedium: {
-    borderBottomColor: '#02a1fc',
+    borderBottomColor: colors.softBlue,
   },
-  content: {color: 'gray'},
+  content: {color: colors.gray},
   titleContainer: {
     flexShrink: 1,
     flexDirection: 'row',
   },
   lastModified: {
-    color: 'gray',
+    color: colors.gray,
     fontStyle: 'italic',
     fontSize: 10,
     marginLeft: 5,
     alignSelf: 'flex-end',
   },
   deleted: {
-    color: 'rgba(100,0,9, 0.5)',
+    color: colors.wine05,
     fontWeight: '600',
     fontSize: 10,
     marginLeft: 5,
     alignSelf: 'flex-end',
   },
   deletedBorder: {
-    borderLeftColor: 'rgba(150, 0, 0, 0.5)',
+    borderLeftColor: colors.red05,
     borderLeftWidth: 3,
   },
   activeBorder: {
-    borderLeftColor: 'rgba(0, 150, 0, 0.5)',
+    borderLeftColor: colors.green05,
     borderLeftWidth: 3,
   },
 }) as {[key: string]: StyleProp<any>};

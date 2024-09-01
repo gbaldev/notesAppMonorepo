@@ -10,6 +10,11 @@ import {UseMutateFunction} from '@tanstack/react-query';
 import {Priorities, priorities, prioritiesColors} from '@constants';
 import {Note} from '@models';
 import {BaseModal} from '@components';
+import {
+  createSuccessToast,
+  errorToast,
+  updateSuccessToast,
+} from '@constants/Toasts';
 import styles from './styles';
 
 interface NewNoteModalProps {
@@ -55,6 +60,11 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
           onSuccess: () => {
             reloadNotes();
             handleOnClose();
+            updateSuccessToast();
+          },
+          onError: () => {
+            handleOnClose();
+            errorToast({action: 'update'});
           },
         },
       );
@@ -70,6 +80,11 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
         onSuccess: () => {
           reloadNotes();
           handleOnClose();
+          createSuccessToast();
+        },
+        onError: () => {
+          handleOnClose();
+          errorToast({action: 'create'});
         },
       },
     );

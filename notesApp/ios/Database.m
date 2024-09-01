@@ -29,6 +29,8 @@ RCT_EXTERN_METHOD(removeNote:(NSDictionary *)noteData
 
 RCT_EXTERN_METHOD(getUnsyncedNotes:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
 
+RCT_EXTERN_METHOD(drop:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
+
 RCT_EXTERN_METHOD(createNotes:(NSArray<NSDictionary *> *)notesData
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)

@@ -1,9 +1,10 @@
 import {Platform, StyleSheet} from 'react-native';
+import colors from '@constants/colors';
 
 export default StyleSheet.create({
   disclaimerLabel: {
     fontWeight: '400',
-    color: 'gray',
+    color: colors.gray,
     flexShrink: 1,
     textAlign: 'center',
     padding: 5,
@@ -21,10 +22,10 @@ export default StyleSheet.create({
     margin: 10,
     flexShrink: 1,
     borderRadius: 25,
-    backgroundColor: 'rgba(255, 255, 255, 1)',
+    backgroundColor: colors.white,
     ...Platform.select({
       ios: {
-        shadowColor: '#000',
+        shadowColor: colors.shadowColor,
         shadowOffset: {width: 0, height: 5},
         shadowOpacity: 0.25,
         shadowRadius: 3.84,

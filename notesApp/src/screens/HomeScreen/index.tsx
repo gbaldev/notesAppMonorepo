@@ -28,11 +28,13 @@ interface HomeScreenProps {
   isCreating: boolean;
   isUpdating: boolean;
   isInternetReachable: boolean;
+  unsyncedNotes: number;
 }
 
 const HomeScreen: React.ComponentType<HomeScreenProps> = ({
   user,
   notes,
+  unsyncedNotes,
   onLogout,
   onCreateNote,
   onDeleteNote,
@@ -141,6 +143,7 @@ const HomeScreen: React.ComponentType<HomeScreenProps> = ({
         <View style={styles.headerContainer}>
           <NoConnectionDisclaimer />
           <Header
+            unscyncedNotes={unsyncedNotes}
             onAddItem={() => setIsModalVisible(true)}
             setFilter={setFilter}
             filter={filter}

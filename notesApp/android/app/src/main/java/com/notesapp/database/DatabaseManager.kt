@@ -142,4 +142,14 @@ object DatabaseManager {
         return createdIds
     }
 
+    fun drop() {
+        try {
+            realm.writeBlocking {
+                deleteAll()
+            }
+        } catch (e: Exception) {
+            throw RuntimeException("Error dropping all data: ${e.message}")
+        }
+    }
+
 }

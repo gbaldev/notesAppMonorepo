@@ -1,0 +1,16 @@
+export default {
+  toastGreen: '#7ABD7E',
+  toastOrange: '#F8D66D',
+  toastRed: '#FF6961',
+  shadowColor: '#000',
+  white: 'rgba(255, 255, 255, 1)',
+  white08: 'rgba(255,255,255,0.8)',
+  gray: 'gray',
+  wine05: 'rgba(100,0,9, 0.5)',
+  wine: '#2f0000',
+  red05: 'rgba(150, 0, 0, 0.5)',
+  green05: 'rgba(0, 150, 0, 0.5)',
+  orange: '#fc9502',
+  softGray: '#959595',
+  softBlue: '#02a1fc',
+};

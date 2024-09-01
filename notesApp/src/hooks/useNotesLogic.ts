@@ -29,10 +29,12 @@ import {
   removeNotes,
 } from '@constants';
 import StackRoutes from '@navigation/routes';
+import {syncErrorToast, syncSuccessToast} from '@constants/Toasts';
 
 const useNotesLogic = () => {
   const {user, clearSession} = useAuth0();
-  const {notes, setNotes} = useNotesStore();
+  const {notes, unscyncedNotesAmount, setNotes, setUnscyncedNotesAmount} =
+    useNotesStore();
   const {isInternetReachable} = useNetInfo();
   const navigation = useNavigator();
 
@@ -77,6 +79,7 @@ const useNotesLogic = () => {
     try {
       await clearSession();
       await clearLocalSession();
+      await Database.drop();
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
@@ -118,7 +121,9 @@ const useNotesLogic = () => {
   const reloadNotes = useCallback(() => {
     const loadNotes = async () => {
       const DBnotes = await Database.getNotes();
+      const unscyncedNotes = await Database.getUnsyncedNotes();
       setNotes(DBnotes.reverse());
+      setUnscyncedNotesAmount(unscyncedNotes?.length ?? 0);
     };
     loadNotes();
   }, []);
@@ -214,8 +219,10 @@ const useNotesLogic = () => {
     Promise.all([createPromise, updatePromise])
       .then(() => {
         reloadNotes();
+        syncSuccessToast();
       })
       .catch((error: any) => {
+        syncErrorToast();
         console.error('Error while sync:', error);
       });
   }, [createNoteMutation, updateNoteMutation, reloadNotes]);
@@ -272,6 +279,7 @@ const useNotesLogic = () => {
 
   return {
     notes,
+    unscyncedNotesAmount,
     isLoading: isGetNotesLoading,
     isCreating: isCreateRunning,
     isDeleting: isDeleteRunning,

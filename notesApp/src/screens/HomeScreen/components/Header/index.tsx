@@ -9,12 +9,14 @@ interface HeaderProps {
   onAddItem: () => void;
   filter: Filter | null;
   setFilter: (f: Filter) => void;
+  unscyncedNotes: number;
 }
 
 const Header: React.ComponentType<HeaderProps> = ({
   onAddItem,
   filter,
   setFilter,
+  unscyncedNotes,
 }) => (
   <ImageBackground
     source={images.appbg}
@@ -48,13 +50,22 @@ const Header: React.ComponentType<HeaderProps> = ({
             <Text style={[styles.filterLabel]}>{Filter.ALL}</Text>
           </TouchableOpacity>
           <Separator width={10} />
-          <TouchableOpacity
-            style={filter === Filter.UNSYNCED && styles.underlined}
-            onPress={() => {
-              setFilter(Filter.UNSYNCED);
-            }}>
-            <Text style={[styles.filterLabel]}>{Filter.UNSYNCED}</Text>
-          </TouchableOpacity>
+          <View style={{flexDirection: 'row'}}>
+            <TouchableOpacity
+              style={filter === Filter.UNSYNCED && styles.underlined}
+              onPress={() => {
+                setFilter(Filter.UNSYNCED);
+              }}>
+              <Text style={[styles.filterLabel]}>{Filter.UNSYNCED}</Text>
+            </TouchableOpacity>
+            {unscyncedNotes > 0 && (
+              <View>
+                <View style={styles.unsyncedBadge}>
+                  <Text style={styles.unsyncedText}>{unscyncedNotes}</Text>
+                </View>
+              </View>
+            )}
+          </View>
         </View>
       </View>
       <Separator width={10} />
