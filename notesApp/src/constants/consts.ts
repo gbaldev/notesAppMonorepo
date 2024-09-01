@@ -31,4 +31,4 @@ export const doesntExistsLocally = (note: Note, storedNotesIDs: String[]) =>
 
 export type Priorities = 'High' | 'Medium' | 'Low';
 export const priorities: Priorities[] = ['High', 'Medium', 'Low'];
-export const prioritiesColors = ['#ECCDD2', '#AADCCD', '#E5E6E1'];
+export const prioritiesColors = ['#ECCDD2', '#8BEAF4', '#E5E6E1'];

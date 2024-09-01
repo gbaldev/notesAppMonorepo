@@ -32,14 +32,8 @@ const NoConnectionDisclaimer: React.ComponentType<
           <Icon name="alert" size={35} />
           <Separator height={5} />
           <Text style={styles.disclaimerLabel}>
-            You are running on the offline mode, data will be synced once you
-            get normal conection again.
-          </Text>
-          <Text style={styles.disclaimerLabel}>
-            You can also try to sync them manually by clicking over the{' '}
-            {<TextIcon />}
-            {''}
-            icon.
+            You are running on the offline mode, unsynced data {<TextIcon />}{' '}
+            will be synced once you have a stable connection again.
           </Text>
         </View>
       );

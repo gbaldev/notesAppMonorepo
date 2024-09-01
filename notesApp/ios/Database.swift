@@ -100,7 +100,14 @@ class Database: NSObject {
       resolve(createdIds)
     }
   }
-  
+
+  @objc func drop(_ resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+    DispatchQueue.main.async {
+      DatabaseManager.shared.drop()
+      resolve(nil) 
+    }
+  }
+
   private func noteToDict(_ note: Note) -> [String: Any] {
     return [
       "_id": note._id,

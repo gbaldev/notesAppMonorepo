@@ -10,6 +10,7 @@ import Animated, {
 import styles from './styles';
 import {Note, NoteStatus} from '@models';
 import {Icon, Separator} from '@components';
+import {deleteSuccessToast, errorToast} from '@constants/Toasts';
 import {DateTime} from 'luxon';
 
 interface NoteCardProps {
@@ -34,6 +35,11 @@ const NoteCard: React.ComponentType<NoteCardProps> = ({
       onSuccess: () => {
         setIsDeleting(false);
         reloadNotes();
+        deleteSuccessToast();
+      },
+      onError: () => {
+        setIsDeleting(false);
+        errorToast({action: 'delete'});
       },
     });
   }, [item._id, onDeleteItem, reloadNotes]);

@@ -22,9 +22,10 @@ const HomeScreenContainer: React.ComponentType<
     refreshNotes,
     reloadNotes,
     logout,
+    syncData,
+    unscyncedNotesAmount,
   } = useNotesLogic();
 
-  const {syncData} = useNotesLogic();
   const {isInternetReachable} = useNetInfo();
 
   useEffect(() => {
@@ -51,6 +52,7 @@ const HomeScreenContainer: React.ComponentType<
       reloadNotes={reloadNotes}
       isUpdating={isUpdating}
       isInternetReachable={!!isInternetReachable}
+      unsyncedNotes={unscyncedNotesAmount}
     />
   );
 };

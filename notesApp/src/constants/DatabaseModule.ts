@@ -10,6 +10,7 @@ type DatabaseType = {
   getUnsyncedNotes(): Promise<Note[]>;
   createNotes(notesData: Note[]): Promise<void>;
   updateNotes(notesData: Note[]): Promise<void>;
+  drop(): Promise<void>;
 };
 
 export default NativeModules.Database as DatabaseType;

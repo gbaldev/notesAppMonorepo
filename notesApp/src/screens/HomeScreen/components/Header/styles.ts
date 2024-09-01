@@ -1,4 +1,5 @@
 import {Platform, StyleSheet} from 'react-native';
+import colors from '@constants/colors';
 
 export default StyleSheet.create({
   container: {
@@ -7,7 +8,7 @@ export default StyleSheet.create({
     marginVertical: 10,
     ...Platform.select({
       ios: {
-        shadowColor: '#2f0000',
+        shadowColor: colors.wine,
         shadowOffset: {width: 0, height: 5},
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
@@ -38,12 +39,12 @@ export default StyleSheet.create({
     borderBottomColor: 'black',
   },
   iconContainer: {
-    backgroundColor: 'rgba(255,255,255,0.8)',
+    backgroundColor: colors.white08,
     borderRadius: 50,
     padding: 5,
     ...Platform.select({
       ios: {
-        shadowColor: '#2f0000',
+        shadowColor: colors.wine,
         shadowOffset: {width: 0, height: 5},
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
@@ -54,4 +55,19 @@ export default StyleSheet.create({
     }),
   },
   flexGrow: {flexGrow: 1},
+  unsyncedText: {
+    color: colors.white,
+    fontSize: 10,
+    padding: 2,
+  },
+  unsyncedBadge: {
+    minWidth: 18,
+    minHeight: 18,
+    marginTop: -5,
+    marginLeft: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 100,
+    backgroundColor: colors.toastRed,
+  },
 });

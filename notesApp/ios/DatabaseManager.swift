@@ -162,6 +162,18 @@ class DatabaseManager {
       return self.realm?.objects(Note.self).filter("isSynced == false").map { $0 } ?? []
     }
   }
+  
+  func drop() {
+      executeOnMainQueue {
+          do {
+              try self.realm?.write {
+                  self.realm?.deleteAll()
+              }
+          } catch {
+              print("Error dropping all data: \(error)")
+          }
+      }
+  }
     
   func createNotes(notes: [NSDictionary]) -> [String] {
     executeOnMainQueue {

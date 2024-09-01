@@ -196,4 +196,14 @@ class DatabaseModule(reactContext: ReactApplicationContext) : ReactContextBaseJa
             promise.reject("CREATE_NOTES_ERROR", e.message)
         }
     }
+
+    @ReactMethod
+    fun drop(promise: Promise) {
+        try {
+            DatabaseManager.drop()
+            promise.resolve(null)
+        } catch (e: RuntimeException) {
+            promise.reject("DROP_ERROR", e.message)
+        }
+    }
 }

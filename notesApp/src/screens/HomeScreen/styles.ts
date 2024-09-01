@@ -1,3 +1,4 @@
+import colors from '@constants/colors';
 import {Platform, StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
@@ -8,7 +9,7 @@ export default StyleSheet.create({
   },
   flatlist: {width: '100%', flexGrow: 1, height: '100%'},
   emptyCardContainer: {
-    backgroundColor: 'white',
+    backgroundColor: colors.white,
     alignItems: 'center',
     padding: 16,
     alignSelf: 'center',
@@ -17,7 +18,7 @@ export default StyleSheet.create({
     borderRadius: 20,
     ...Platform.select({
       ios: {
-        shadowColor: '#000',
+        shadowColor: colors.shadowColor,
         shadowOffset: {width: 0, height: 5},
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
@@ -28,7 +29,7 @@ export default StyleSheet.create({
     }),
   },
   label: {
-    color: 'gray',
+    color: colors.gray,
     fontWeight: '400',
   },
   noData: {flexGrow: 1, justifyContent: 'center'},

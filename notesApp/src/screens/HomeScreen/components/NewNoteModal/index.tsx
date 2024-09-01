@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {
   ActivityIndicator,
   Text,
@@ -10,6 +10,12 @@ import {UseMutateFunction} from '@tanstack/react-query';
 import {Priorities, priorities, prioritiesColors} from '@constants';
 import {Note} from '@models';
 import {BaseModal} from '@components';
+import {
+  createSuccessToast,
+  errorToast,
+  updateSuccessToast,
+} from '@constants/Toasts';
+import colors from '@constants/colors';
 import styles from './styles';
 
 interface NewNoteModalProps {
@@ -34,6 +40,10 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
   const [priority, setPriority] = useState<Priorities>(priorities[2]);
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
+  const canSave = useMemo(
+    () => title.length > 0 && content.length > 0,
+    [title, content],
+  );
 
   const handleOnClose = useCallback(() => {
     setPriority(priorities[2]);
@@ -55,6 +65,11 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
           onSuccess: () => {
             reloadNotes();
             handleOnClose();
+            updateSuccessToast();
+          },
+          onError: () => {
+            handleOnClose();
+            errorToast({action: 'update'});
           },
         },
       );
@@ -70,6 +85,11 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
         onSuccess: () => {
           reloadNotes();
           handleOnClose();
+          createSuccessToast();
+        },
+        onError: () => {
+          handleOnClose();
+          errorToast({action: 'create'});
         },
       },
     );
@@ -142,9 +162,12 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
         <View style={styles.bottomSeparator} />
         <View style={styles.actionsContainer}>
           <TouchableOpacity
-            style={styles.addButton}
+            style={[
+              styles.addButton,
+              !canSave && {backgroundColor: colors.gray},
+            ]}
             onPress={onSubmit}
-            disabled={isLoading}>
+            disabled={isLoading || !canSave}>
             {isLoading ? (
               <ActivityIndicator size={12} />
             ) : (
