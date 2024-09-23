@@ -174,3 +174,6 @@ The application follows a client-server architecture with offline-first capabili
 <img src="https://github.com/user-attachments/assets/2c761331-91c3-4448-abf2-1167345af0a8" alt="Imagen 9" width="250" />
 <img src="https://github.com/user-attachments/assets/679f1908-1f3e-4940-80e0-c054e448041d" alt="Imagen 10" width="250" />
 <img src="https://github.com/user-attachments/assets/e768bd98-a5e4-42ad-9704-2fc2ac93dc12" alt="Imagen 11" width="250" />
+
+## Video
+[Showcase](https://drive.google.com/file/d/1Y18-f79S2rKBlMcpKWhGHIMbpgvxYs47/view?usp=sharing)
