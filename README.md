@@ -122,6 +122,11 @@ The server should now be running on `http://localhost:3000` (or your configured 
 
 Alternatively, you can open the project in Xcode (for iOS) or Android Studio (for Android) and run it from there.
 
+6. Run tests
+      ```
+   npm run test
+   ```
+
 ## Architecture
 
 The application follows a client-server architecture with offline-first capabilities:
