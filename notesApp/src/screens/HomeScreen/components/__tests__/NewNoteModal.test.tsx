@@ -12,6 +12,8 @@ jest.mock('@constants/Toasts', () => ({
   errorToast: jest.fn(),
 }));
 
+jest.useFakeTimers();
+
 describe('NewNoteModal', () => {
   const mockOnClose = jest.fn();
   const mockOnCreate = jest.fn();
