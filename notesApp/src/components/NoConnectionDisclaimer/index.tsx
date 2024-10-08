@@ -23,8 +23,9 @@ const NoConnectionDisclaimer: React.ComponentType<
   const Disclaimer = useCallback(() => {
     if (showDisclimer) {
       return (
-        <View style={styles.disclaimerContainer}>
+        <View testID="Disclaimer" style={styles.disclaimerContainer}>
           <TouchableOpacity
+            testID="closeButton"
             onPress={() => setShowDisclaimer(false)}
             style={styles.closeButton}>
             <Icon name="close" color="gray" size={26} />
@@ -39,7 +40,7 @@ const NoConnectionDisclaimer: React.ComponentType<
       );
     } else {
       return (
-        <View style={styles.disclaimerContainer}>
+        <View testID="DisclaimerCollapsed" style={styles.disclaimerContainer}>
           <View style={styles.shortDisclaimerContainer}>
             <Icon name="alert" size={26} />
             <Separator width={10} />

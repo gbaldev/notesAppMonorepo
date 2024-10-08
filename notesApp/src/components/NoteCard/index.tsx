@@ -52,7 +52,7 @@ const NoteCard: React.ComponentType<NoteCardProps> = ({
   const EditButton = useCallback(() => {
     return (
       !isDeleting && (
-        <TouchableOpacity onPress={() => onEdit(item)}>
+        <TouchableOpacity testID="EditButton" onPress={() => onEdit(item)}>
           <Icon name="edit" size={20} />
         </TouchableOpacity>
       )
@@ -67,9 +67,9 @@ const NoteCard: React.ComponentType<NoteCardProps> = ({
     return (
       <>
         <Separator width={10} />
-        <TouchableOpacity onPress={onDelete}>
+        <TouchableOpacity testID="DeleteButton" onPress={onDelete}>
           {isDeleting ? (
-            <ActivityIndicator size={20} />
+            <ActivityIndicator testID="ActivityIndicator" size={20} />
           ) : (
             <Icon name="bin" size={20} color={'#7B0323'} />
           )}
@@ -86,7 +86,10 @@ const NoteCard: React.ComponentType<NoteCardProps> = ({
     return (
       <>
         <Separator width={10} />
-        <AnimatedTouchable style={style} onPress={() => {}}>
+        <AnimatedTouchable
+          testID="CloudUploadButton"
+          style={style}
+          onPress={() => {}}>
           <Icon name="cloudUpload" size={20} color={'rgba(0,100,000,1)'} />
         </AnimatedTouchable>
       </>
@@ -110,7 +113,7 @@ const NoteCard: React.ComponentType<NoteCardProps> = ({
       <View style={[styles.header, styles[`header${item.priority ?? ''}`]]}>
         <View style={styles.titleContainer}>
           <Icon name="fire" {...item} size={20} />
-          <Text style={styles.lastModified}>
+          <Text testID="NoteCardLastModified" style={styles.lastModified}>
             Last modified: {lastModifiedDate}
           </Text>
         </View>
@@ -124,9 +127,13 @@ const NoteCard: React.ComponentType<NoteCardProps> = ({
         </View>
       </View>
       <Separator height={15} />
-      <Text style={[styles.title]}>{item.title}</Text>
+      <Text testID="NoteCardTitle" style={[styles.title]}>
+        {item.title}
+      </Text>
       <Separator height={8} />
-      <Text style={styles.content}>{item.content}</Text>
+      <Text testID="NoteCardContent" style={styles.content}>
+        {item.content}
+      </Text>
     </View>
   );
 };

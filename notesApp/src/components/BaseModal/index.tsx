@@ -12,15 +12,18 @@ import styles from './styles';
 interface BaseModalProps {
   visible: boolean;
   onRequestClose?: () => void;
+  testID?: string;
 }
 
 const BaseModal: React.FC<PropsWithChildren<BaseModalProps>> = ({
   visible,
   children,
   onRequestClose,
+  testID = 'BaseModal',
 }) => {
   return (
     <Modal
+      testID={testID}
       transparent={true}
       visible={visible}
       animationType="slide"

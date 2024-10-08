@@ -21,12 +21,16 @@ const Header: React.ComponentType<HeaderProps> = ({
   <ImageBackground
     source={images.appbg}
     imageStyle={styles.image}
-    style={styles.container}>
+    style={styles.container}
+    testID="HeaderBackground">
     <View style={styles.innerContainer}>
       <View style={styles.flexGrow}>
-        <Text style={styles.label}>My Notes</Text>
+        <Text style={styles.label} testID="HeaderTitle">
+          My Notes
+        </Text>
         <View style={styles.filters}>
           <TouchableOpacity
+            testID="ActiveFilterButton"
             style={filter === Filter.ACTIVE && styles.underlined}
             onPress={() => {
               setFilter(Filter.ACTIVE);
@@ -35,6 +39,7 @@ const Header: React.ComponentType<HeaderProps> = ({
           </TouchableOpacity>
           <Separator width={10} />
           <TouchableOpacity
+            testID="DeletedFilterButton"
             style={filter === Filter.DELETED && styles.underlined}
             onPress={() => {
               setFilter(Filter.DELETED);
@@ -43,6 +48,7 @@ const Header: React.ComponentType<HeaderProps> = ({
           </TouchableOpacity>
           <Separator width={10} />
           <TouchableOpacity
+            testID="AllFilterButton"
             style={(filter === Filter.ALL || !filter) && styles.underlined}
             onPress={() => {
               setFilter(Filter.ALL);
@@ -52,6 +58,7 @@ const Header: React.ComponentType<HeaderProps> = ({
           <Separator width={10} />
           <View style={styles.row}>
             <TouchableOpacity
+              testID="UnsyncedFilterButton"
               style={filter === Filter.UNSYNCED && styles.underlined}
               onPress={() => {
                 setFilter(Filter.UNSYNCED);
@@ -59,9 +66,11 @@ const Header: React.ComponentType<HeaderProps> = ({
               <Text style={[styles.filterLabel]}>{Filter.UNSYNCED}</Text>
             </TouchableOpacity>
             {unscyncedNotes > 0 && (
-              <View>
+              <View testID="UnsyncedBadgeContainer">
                 <View style={styles.unsyncedBadge}>
-                  <Text style={styles.unsyncedText}>{unscyncedNotes}</Text>
+                  <Text style={styles.unsyncedText} testID="UnsyncedBadgeText">
+                    {unscyncedNotes}
+                  </Text>
                 </View>
               </View>
             )}
@@ -69,7 +78,10 @@ const Header: React.ComponentType<HeaderProps> = ({
         </View>
       </View>
       <Separator width={10} />
-      <TouchableOpacity style={styles.iconContainer} onPress={onAddItem}>
+      <TouchableOpacity
+        testID="AddItemButton"
+        style={styles.iconContainer}
+        onPress={onAddItem}>
         <Icon name="add" size={30} />
       </TouchableOpacity>
     </View>

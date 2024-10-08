@@ -7,7 +7,7 @@ interface SeparatorProps {
 }
 
 const Separator: React.ComponentType<SeparatorProps> = ({height, width}) => {
-  return <View style={{height, width}} />;
+  return <View testID="Separator" style={{height, width}} />;
 };
 
 export default Separator;
