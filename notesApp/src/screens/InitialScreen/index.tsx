@@ -90,6 +90,7 @@ const InitialScreen: React.ComponentType<InitialScreenProps> = ({
                   <Text style={styles.buttonLabel}>Log in</Text>
                 </View>
                 <TouchableOpacity
+                  testID="log-in-button"
                   onPress={onLogin}
                   style={styles.loginButton}
                 />

@@ -116,11 +116,14 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
     <BaseModal visible={visible}>
       <View style={styles.container}>
         <Text style={styles.modalText}>
-          <Text style={styles.boldText}>{note ? 'Edit Note' : 'Add Note'}</Text>
+          <Text testID="action-describer" style={styles.boldText}>
+            {note ? 'Edit Note' : 'Add Note'}
+          </Text>
         </Text>
         <View style={styles.separator} />
         <Text style={styles.sectionTitle}>Title</Text>
         <TextInput
+          testID="title-input"
           style={styles.input}
           onChangeText={setTitle}
           editable={!isLoading}
@@ -129,6 +132,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
         <View style={styles.separator} />
         <Text style={styles.sectionTitle}>Content</Text>
         <TextInput
+          testID="content-input"
           style={styles.input}
           numberOfLines={2}
           multiline
@@ -162,6 +166,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
         <View style={styles.bottomSeparator} />
         <View style={styles.actionsContainer}>
           <TouchableOpacity
+            testID="action-button"
             style={[
               styles.addButton,
               !canSave && {backgroundColor: colors.gray},
@@ -169,13 +174,14 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
             onPress={onSubmit}
             disabled={isLoading || !canSave}>
             {isLoading ? (
-              <ActivityIndicator size={12} />
+              <ActivityIndicator testID="activity-indicator" size={12} />
             ) : (
               <Text style={styles.textStyle}>{note ? 'Save' : 'Add Note'}</Text>
             )}
           </TouchableOpacity>
           <View style={styles.horizontalSeparator} />
           <TouchableOpacity
+            testID="cancel-button"
             style={styles.cancelButton}
             onPress={handleOnClose}
             disabled={isLoading}>

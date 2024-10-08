@@ -30,7 +30,7 @@ const NavHeader: React.ComponentType<NavHeaderProps> = ({user, onLogout}) => {
         <Text style={[styles.label, !user?.givenName && styles.noUserName]}>
           {user?.givenName ?? 'Happy Note-Taking!'}
         </Text>
-        <TouchableOpacity onPress={onLogout}>
+        <TouchableOpacity testID="logoutButton" onPress={onLogout}>
           <Icon name="logOut" size={35} />
         </TouchableOpacity>
       </View>
