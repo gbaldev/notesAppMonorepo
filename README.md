@@ -44,6 +44,7 @@ The app allows users to create, read, update, and delete notes, with all operati
 - TanStack Query for data fetching and caching
 - Zustand for state management
 - React Native Reanimated for animations
+- Jest + @testing-library/react-native for tests
 
 ## Getting Started
 
